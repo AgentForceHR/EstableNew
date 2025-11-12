@@ -18,14 +18,17 @@ const Header: React.FC = () => {
           <a href="#vaults" className="text-brand-gray hover:text-brand-light transition-colors">
             Vaults
           </a>
+          <a href="#referrals" className="text-brand-gray hover:text-brand-light transition-colors">
+            Referidos
+          </a>
           <a href="#faq" className="text-brand-gray hover:text-brand-light transition-colors">
             FAQ
           </a>
         </nav>
 
-        <button className="bg-brand-green hover:bg-brand-green/90 text-brand-dark font-semibold px-6 py-2 rounded-lg transition-all">
+        <a href="#vaults" className="bg-brand-green hover:bg-brand-green/90 text-brand-dark font-semibold px-6 py-2 rounded-lg transition-all">
           Comenzar
-        </button>
+        </a>
       </div>
     </header>
   );

@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import HowItWorks from './components/HowItWorks';
 import Vaults from './components/Vaults';
+import ReferralSystem from './components/ReferralSystem';
 import ProtocolDetails from './components/ProtocolDetails';
 import InflationComparison from './components/InflationComparison';
 import FAQ from './components/FAQ';
@@ -16,6 +17,7 @@ const App: React.FC = () => {
         <Hero />
         <HowItWorks />
         <Vaults />
+        <ReferralSystem />
         <ProtocolDetails />
         <InflationComparison />
         <FAQ />
