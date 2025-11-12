@@ -48,7 +48,7 @@ const Hero: React.FC = () => {
         <div className="text-center animate-fade-in-up">
           <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 px-4 py-2 rounded-full mb-6">
             <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span>
-            <span className="text-blue-400 text-sm font-semibold">Powered by Morpho Blue on Base</span>
+            <span className="text-blue-400 text-sm font-semibold">Powered by Morpho Blue + Spark.fi on Base</span>
           </div>
 
           <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
@@ -57,7 +57,7 @@ const Hero: React.FC = () => {
           </h1>
 
           <p className="text-xl text-brand-gray max-w-2xl mx-auto mb-8">
-            Genera hasta {stats.maxAPY}% APY con USDC, USDT y DAI en Morpho Blue.
+            Genera hasta {stats.maxAPY}% APY con USDC, USDT y DAI en Morpho Blue y Spark.fi.
             Protege tus ahorros de la inflación en LATAM con DeFi seguro y auditado.
           </p>
 
@@ -81,14 +81,14 @@ const Hero: React.FC = () => {
               <div className="text-3xl font-bold text-brand-green mb-2">Hasta {stats.maxAPY}% APY</div>
               <div className="text-brand-gray">Rendimiento anual en dólares</div>
               <div className="text-xs text-brand-gray mt-2">
-                Spark USDC: 8-12% | Steakhouse USDT: 10-15%
+                Spark.fi USDC: 8-12% | Steakhouse USDT: 10-15%
               </div>
             </div>
             <div className="bg-brand-card p-6 rounded-xl border border-brand-gray/20 hover:border-brand-green/50 transition-all">
               <div className="text-3xl font-bold text-brand-green mb-2">{formatTVL(stats.totalTVL)}</div>
               <div className="text-brand-gray">Total Value Locked</div>
               <div className="text-xs text-brand-gray mt-2">
-                Distribuido en 3 vaults Morpho Blue
+                Morpho Blue + Spark.fi integrations
               </div>
             </div>
             <div className="bg-brand-card p-6 rounded-xl border border-brand-gray/20 hover:border-brand-green/50 transition-all">

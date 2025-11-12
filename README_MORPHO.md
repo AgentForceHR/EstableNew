@@ -1,21 +1,21 @@
-# Estable.app - Morpho Blue Integration (Base Network)
+# Estable.app - Morpho Blue + Spark.fi Integration (Base Network)
 
 ## 🚀 Complete DeFi Yield Platform for LATAM
 
-Estable.app is a comprehensive yield aggregation platform focused on **Morpho Blue** vaults on **Base network**, targeting Latin American users seeking dollar-denominated yields to combat inflation.
+Estable.app is a comprehensive yield aggregation platform focused on **Morpho Blue** and **Spark.fi** vaults on **Base network**, targeting Latin American users seeking dollar-denominated yields to combat inflation.
 
 ### Key Features
 
 ✅ **3 Live Vaults** (November 2025)
-- Spark USDC Vault: 8-12% APY (Morpho Blue allocations)
+- Spark.fi USDC Vault: 8-12% APY (Morpho Blue allocations)
 - Steakhouse USDT Vault: 10-15% blended APY
 - sDAI MetaMorpho: 3.5-10% APY (DSR + Morpho boosts)
 
 ✅ **Auto-Rebalancing**
-- 40% Spark USDC
+- 40% Spark.fi USDC
 - 30% Steakhouse USDT
 - 30% sDAI MetaMorpho
-- Weekly automated rebalancing
+- Weekly automated rebalancing via Morpho Blue
 
 ✅ **4 Revenue Streams**
 - Performance fees: 15% (10% treasury, 5% referrers)

@@ -113,13 +113,13 @@ const Vaults: React.FC = () => {
     <section id="vaults" className="py-20 px-6">
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">Vaults Morpho Blue</h2>
+          <h2 className="text-4xl font-bold mb-4">Vaults Disponibles</h2>
           <p className="text-brand-gray text-lg max-w-2xl mx-auto">
-            Vaults optimizados en Base Network con rendimientos competitivos
+            Vaults optimizados usando Morpho Blue y Spark.fi en Base Network
           </p>
           <div className="mt-4 inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 px-4 py-2 rounded-lg">
             <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span>
-            <span className="text-blue-400 text-sm font-semibold">Base Network</span>
+            <span className="text-blue-400 text-sm font-semibold">Morpho Blue + Spark.fi on Base</span>
           </div>
         </div>
 
@@ -176,7 +176,7 @@ const Vaults: React.FC = () => {
             <div>
               <h4 className="font-semibold text-brand-green mb-2">Rebalanceo Automático</h4>
               <p className="text-brand-gray text-sm">
-                Los fondos se rebalancean automáticamente cada semana: 40% Spark USDC, 30% Steakhouse USDT, 30% sDAI para maximizar rendimientos.
+                Los fondos se rebalancean automáticamente cada semana: 40% Spark.fi USDC, 30% Steakhouse USDT, 30% sDAI para maximizar rendimientos con Morpho Blue.
               </p>
             </div>
           </div>
