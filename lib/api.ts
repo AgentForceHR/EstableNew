@@ -18,9 +18,32 @@ export interface Vault {
   vault_contract_address: string;
   protocol: string;
   current_apy: number;
+  min_apy: number;
+  max_apy: number;
   total_value_locked: number;
   risk_level: string;
+  network: string;
+  performance_fee_bps: number;
+  deposit_fee_bps: number;
+  withdrawal_fee_bps: number;
   is_active: boolean;
+}
+
+export interface Referral {
+  id: string;
+  referral_code: string;
+  total_referrals: number;
+  total_commission_earned: number;
+  commission_rate_bps: number;
+}
+
+export interface RevenueStats {
+  performance_fee: number;
+  referral_fee: number;
+  deposit_fee: number;
+  withdrawal_fee: number;
+  mev_capture: number;
+  total: number;
 }
 
 export interface UserBalance {
@@ -39,9 +62,18 @@ export interface Portfolio {
 
 export class EstableAPI {
   private authToken: string | null = null;
+  private referralCode: string | null = null;
 
   setAuthToken(token: string) {
     this.authToken = token;
+  }
+
+  setReferralCode(code: string) {
+    this.referralCode = code;
+  }
+
+  getReferralCode(): string | null {
+    return this.referralCode;
   }
 
   async fetchVaults(): Promise<Vault[]> {
@@ -54,7 +86,8 @@ export class EstableAPI {
     vaultAddress: string,
     tokenAddress: string,
     amount: string,
-    walletAddress: string
+    walletAddress: string,
+    referrer?: string
   ) {
     if (!this.authToken) {
       throw new Error('User not authenticated');
@@ -63,7 +96,8 @@ export class EstableAPI {
     const { txHash, shares } = await depositToVault(
       vaultAddress,
       tokenAddress,
-      amount
+      amount,
+      referrer
     );
 
     await recordDeposit(
@@ -116,6 +150,85 @@ export class EstableAPI {
 
   async connect(): Promise<string> {
     return connectWallet();
+  }
+
+  async createReferralCode(walletAddress: string): Promise<Referral> {
+    if (!this.authToken) {
+      throw new Error('User not authenticated');
+    }
+
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const response = await fetch(`${supabaseUrl}/functions/v1/create-referral-code`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${this.authToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ wallet_address: walletAddress }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to create referral code');
+    }
+
+    const data = await response.json();
+    return data.referral;
+  }
+
+  async getRevenueStats(timeframe: string = '30d'): Promise<RevenueStats> {
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+    const response = await fetch(
+      `${supabaseUrl}/functions/v1/track-revenue?timeframe=${timeframe}`,
+      {
+        headers: {
+          'Authorization': `Bearer ${supabaseAnonKey}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch revenue stats');
+    }
+
+    const data = await response.json();
+    return data.summary;
+  }
+
+  async trackRevenue(
+    vaultId: string,
+    revenueType: string,
+    amount: string,
+    transactionHash?: string,
+    userId?: string,
+    referralCode?: string
+  ) {
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+    const response = await fetch(`${supabaseUrl}/functions/v1/track-revenue`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${supabaseAnonKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        vault_id: vaultId,
+        revenue_type: revenueType,
+        amount,
+        transaction_hash: transactionHash,
+        user_id: userId,
+        referral_code: referralCode,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to track revenue');
+    }
+
+    return response.json();
   }
 }
 
