@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estable.app - Rendimientos Estables</title>
+    <meta name="description" content="Genera rendimientos estables de hasta 18% APY en dólares digitales (USDC, USDT). Protege tus ahorros de la inflación en LATAM con Estable.app. Simple y seguro." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'brand-blue': '#0A2540',
+            'brand-green': '#22C55E',
+            'brand-light': '#F8F9FA',
+            'brand-gray': '#6B7280',
+            'brand-dark': '#111827',
+            'brand-card': '#1F2937'
+          },
+          animation: {
+            'fade-in-up': 'fade-in-up 0.8s ease-out forwards'
+          },
+          keyframes: {
+            'fade-in-up': {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          }
+        }
+      }
+    }
+    </script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-brand-dark text-brand-light">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+</body>
+</html>
