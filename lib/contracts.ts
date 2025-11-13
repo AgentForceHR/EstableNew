@@ -6,7 +6,7 @@ export const USDC_ADDRESS = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48';
 export const USDT_ADDRESS = '0xdAC17F958D2ee523a2206206994597C13D831ec7';
 
 export const VAULT_ABI = [
-  'function deposit(uint256 assets) external returns (uint256 shares)',
+  'function deposit(uint256 assets, address referrer) external returns (uint256 shares)',
   'function withdraw(uint256 shares) external returns (uint256 assets)',
   'function balanceOf(address account) external view returns (uint256)',
   'function balanceOfAssets(address user) external view returns (uint256)',
@@ -15,6 +15,7 @@ export const VAULT_ABI = [
   'function totalAssets() external view returns (uint256)',
   'function getCurrentAPY() external view returns (uint256)',
   'function asset() external view returns (address)',
+  'function referrers(address user) external view returns (address)',
 ];
 
 export const ERC20_ABI = [
@@ -65,13 +66,15 @@ export async function getTokenContract(tokenAddress: string) {
 export async function depositToVault(
   vaultAddress: string,
   tokenAddress: string,
-  amount: string
+  amount: string,
+  referrer?: string
 ): Promise<{ txHash: string; shares: string }> {
   const vault = await getVaultContract(vaultAddress);
   const token = await getTokenContract(tokenAddress);
   const signer = await getSigner();
 
   const amountBN = ethers.parseUnits(amount, 6);
+  const referrerAddress = referrer || ethers.ZeroAddress;
 
   const allowance = await token.allowance(await signer.getAddress(), vaultAddress);
   if (allowance < amountBN) {
@@ -79,7 +82,7 @@ export async function depositToVault(
     await approveTx.wait();
   }
 
-  const tx = await vault.deposit(amountBN);
+  const tx = await vault.deposit(amountBN, referrerAddress);
   const receipt = await tx.wait();
 
   const depositEvent = receipt.logs.find((log: any) => {
@@ -162,6 +165,29 @@ export async function getTokenBalance(tokenAddress: string, userAddress: string)
     symbol,
     decimals: Number(decimals),
   };
+}
+
+export async function getTotalAssets(vaultAddress: string): Promise<string> {
+  try {
+    const vault = await getVaultContract(vaultAddress);
+    const totalAssets = await vault.totalAssets();
+    return ethers.formatUnits(totalAssets, 6);
+  } catch (error) {
+    console.error('Error fetching total assets:', error);
+    return '0';
+  }
+}
+
+export async function getReferrer(userAddress: string): Promise<string> {
+  try {
+    const vaultAddress = '0x0000000000000000000000000000000000000001';
+    const vault = await getVaultContract(vaultAddress);
+    const referrer = await vault.referrers(userAddress);
+    return referrer;
+  } catch (error) {
+    console.error('Error fetching referrer:', error);
+    return ethers.ZeroAddress;
+  }
 }
 
 declare global {
