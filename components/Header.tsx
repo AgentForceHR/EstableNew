@@ -1,4 +1,5 @@
 import React from 'react';
+import WalletConnectButton from './WalletConnectButton';
 
 const Header: React.FC = () => {
   return (
@@ -26,9 +27,7 @@ const Header: React.FC = () => {
           </a>
         </nav>
 
-        <a href="#vaults" className="bg-brand-green hover:bg-brand-green/90 text-brand-dark font-semibold px-6 py-2 rounded-lg transition-all">
-          Comenzar
-        </a>
+        <WalletConnectButton />
       </div>
     </header>
   );

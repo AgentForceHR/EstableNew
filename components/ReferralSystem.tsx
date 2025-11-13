@@ -1,33 +1,25 @@
 import React, { useState } from 'react';
+import { useAccount } from 'wagmi';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { api, Referral } from '../lib/api';
 
 const ReferralSystem: React.FC = () => {
+  const { address, isConnected } = useAccount();
+  const { openConnectModal } = useConnectModal();
+
   const [referral, setReferral] = useState<Referral | null>(null);
-  const [walletAddress, setWalletAddress] = useState('');
-  const [walletConnected, setWalletConnected] = useState(false);
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const connectWallet = async () => {
-    try {
-      const address = await api.connect();
-      setWalletAddress(address);
-      setWalletConnected(true);
-    } catch (error) {
-      console.error('Failed to connect wallet:', error);
-      alert('Por favor instala MetaMask para continuar');
-    }
-  };
-
   const createReferralCode = async () => {
-    if (!walletConnected) {
+    if (!isConnected || !address) {
       alert('Por favor conecta tu wallet primero');
       return;
     }
 
     try {
       setLoading(true);
-      const result = await api.createReferralCode(walletAddress);
+      const result = await api.createReferralCode(address);
       setReferral(result);
     } catch (error) {
       console.error('Failed to create referral code:', error);
@@ -76,9 +68,9 @@ const ReferralSystem: React.FC = () => {
               </p>
             </div>
 
-            {!walletConnected ? (
+            {!isConnected ? (
               <button
-                onClick={connectWallet}
+                onClick={openConnectModal}
                 className="w-full bg-brand-green hover:bg-brand-green/90 text-brand-dark font-semibold py-4 rounded-lg transition-all"
               >
                 Conectar Wallet
@@ -87,7 +79,7 @@ const ReferralSystem: React.FC = () => {
               <div>
                 <div className="bg-brand-dark p-4 rounded-lg mb-6 text-center">
                   <p className="text-sm text-brand-gray mb-2">Wallet Conectada</p>
-                  <p className="font-mono">{walletAddress.slice(0, 10)}...{walletAddress.slice(-8)}</p>
+                  <p className="font-mono">{address?.slice(0, 10)}...{address?.slice(-8)}</p>
                 </div>
 
                 <button

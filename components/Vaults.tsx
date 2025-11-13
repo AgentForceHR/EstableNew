@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { useAccount } from 'wagmi';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { api, Vault } from '../lib/api';
 
 const Vaults: React.FC = () => {
+  const { address, isConnected } = useAccount();
+  const { openConnectModal } = useConnectModal();
+
   const [vaults, setVaults] = useState<Vault[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedVault, setSelectedVault] = useState<Vault | null>(null);
   const [depositAmount, setDepositAmount] = useState('');
-  const [walletConnected, setWalletConnected] = useState(false);
-  const [walletAddress, setWalletAddress] = useState('');
 
   useEffect(() => {
     loadVaults();
@@ -34,19 +37,8 @@ const Vaults: React.FC = () => {
     }
   };
 
-  const connectWallet = async () => {
-    try {
-      const address = await api.connect();
-      setWalletAddress(address);
-      setWalletConnected(true);
-    } catch (error) {
-      console.error('Failed to connect wallet:', error);
-      alert('Por favor instala MetaMask para continuar');
-    }
-  };
-
   const handleDeposit = async () => {
-    if (!selectedVault || !depositAmount || !walletConnected) {
+    if (!selectedVault || !depositAmount || !isConnected || !address) {
       alert('Por favor conecta tu wallet y ingresa un monto');
       return;
     }
@@ -65,7 +57,7 @@ const Vaults: React.FC = () => {
         selectedVault.vault_contract_address,
         selectedVault.token_address,
         depositAmount,
-        walletAddress,
+        address,
         referralCode || undefined
       );
 
@@ -196,13 +188,13 @@ const Vaults: React.FC = () => {
               </button>
             </div>
 
-            {!walletConnected ? (
+            {!isConnected ? (
               <div className="text-center py-8">
                 <p className="text-brand-gray mb-6">
                   Conecta tu wallet para depositar
                 </p>
                 <button
-                  onClick={connectWallet}
+                  onClick={openConnectModal}
                   className="bg-brand-green hover:bg-brand-green/90 text-brand-dark font-semibold px-8 py-3 rounded-lg transition-all"
                 >
                   Conectar Wallet
@@ -215,7 +207,7 @@ const Vaults: React.FC = () => {
                     Wallet Conectada
                   </label>
                   <div className="bg-brand-dark px-4 py-2 rounded-lg text-sm">
-                    {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+                    {address?.slice(0, 6)}...{address?.slice(-4)}
                   </div>
                 </div>
 
