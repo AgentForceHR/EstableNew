@@ -118,12 +118,15 @@ export class EstableAPI {
   async fetchVaults(): Promise<Vault[]> {
     const vaults = [...HARDCODED_VAULTS];
 
+    const apyData = await fetchAllVaultAPYs();
+
     for (const vault of vaults) {
-      try {
-        const tvl = await getTotalAssets(vault.vault_contract_address);
-        vault.total_value_locked = parseFloat(tvl);
-      } catch (error) {
-        console.error(`Failed to fetch TVL for ${vault.name}:`, error);
+      if (vault.token === 'USDC' && apyData.usdc !== null) {
+        vault.current_apy = apyData.usdc;
+      } else if (vault.token === 'USDT' && apyData.usdt !== null) {
+        vault.current_apy = apyData.usdt;
+      } else if (vault.token === 'DAI' && apyData.dai !== null) {
+        vault.current_apy = apyData.dai;
       }
     }
 

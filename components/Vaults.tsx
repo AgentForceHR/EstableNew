@@ -79,11 +79,18 @@ const Vaults: React.FC = () => {
   };
 
   const formatTVL = (tvl: number) => {
-    if (tvl >= 1000000) {
-      return `$${(tvl / 1000000).toFixed(1)}M`;
+    if (!tvl || isNaN(tvl) || !isFinite(tvl)) {
+      return '$0';
     }
-    if (tvl >= 1000) {
-      return `$${(tvl / 1000).toFixed(0)}K`;
+
+    if (tvl >= 1e9) {
+      return `$${(tvl / 1e9).toFixed(2)}B`;
+    }
+    if (tvl >= 1e6) {
+      return `$${(tvl / 1e6).toFixed(1)}M`;
+    }
+    if (tvl >= 1e3) {
+      return `$${(tvl / 1e3).toFixed(0)}K`;
     }
     return `$${tvl.toFixed(0)}`;
   };
