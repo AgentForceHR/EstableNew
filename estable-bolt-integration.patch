@@ -1,5 +1,9 @@
-*** Begin Patch
-*** Add File: bolt_integration/.env.example
+diff --git a/bolt_integration/.env.example b/bolt_integration/.env.example
+new file mode 100644
+index 0000000..e69de29
+--- /dev/null
++++ b/bolt_integration/.env.example
+@@ -0,0 +1,9 @@
 +# Bolt integration example env
 +PRIVATE_KEY=0xYOUR_PRIVATE_KEY_FOR_BASE_SEPOLIA
 +BASE_RPC=https://sepolia.base.org
@@ -9,10 +13,12 @@
 +FACTORY_OWNER_ADDRESS=0xYourOwnerAddress
 +FACTORY_ADDRESS=
 +VAULT_ASSET_ADDRESS=
-+
-*** End Patch
-*** Begin Patch
-*** Add File: bolt_integration/scripts/deploy_all.js
+diff --git a/bolt_integration/scripts/deploy_all.js b/bolt_integration/scripts/deploy_all.js
+new file mode 100644
+index 0000000..e69de29
+--- /dev/null
++++ b/bolt_integration/scripts/deploy_all.js
+@@ -0,0 +1,77 @@
 +// Deploy TimelockController, VaultFactory, and an example StableVault via factory.
 +// Requires environment variables set in bolt_integration/.env or system env:
 +// PRIVATE_KEY, BASE_RPC, TREASURY_ADDRESS, TIMELOCK_DELAY
@@ -64,10 +70,12 @@
 +  console.error(err);
 +  process.exit(1);
 +});
-+
-*** End Patch
-*** Begin Patch
-*** Add File: bolt_integration/scripts/export_abis.js
+diff --git a/bolt_integration/scripts/export_abis.js b/bolt_integration/scripts/export_abis.js
+new file mode 100644
+index 0000000..e69de29
+--- /dev/null
++++ b/bolt_integration/scripts/export_abis.js
+@@ -0,0 +1,28 @@
 +const fs = require("fs");
 +const path = require("path");
 +
@@ -89,10 +97,12 @@
 +}
 +
 +main().catch(console.error);
-+
-*** End Patch
-*** Begin Patch
-*** Add File: bolt_integration/README-BOLT.md
+diff --git a/bolt_integration/README-BOLT.md b/bolt_integration/README-BOLT.md
+new file mode 100644
+index 0000000..e69de29
+--- /dev/null
++++ b/bolt_integration/README-BOLT.md
+@@ -0,0 +1,22 @@
 +# Bolt Integration - Estable
 +
 +This folder contains helper scripts and ABI export for Bolt.new integration and for deploying to Base Sepolia.
@@ -120,10 +130,12 @@
 +Bolt usage:
 +- Push repo to GitHub and connect Bolt.new to it.
 +- Bolt will detect scripts under `bolt_integration/scripts` and show deploy buttons.
-+
-*** End Patch
-*** Begin Patch
-*** Add File: bolt_integration/frontend/package.json
+diff --git a/bolt_integration/frontend/package.json b/bolt_integration/frontend/package.json
+new file mode 100644
+index 0000000..e69de29
+--- /dev/null
++++ b/bolt_integration/frontend/package.json
+@@ -0,0 +1,27 @@
 +{
 +  "name": "estable-bolt-ui",
 +  "private": true,
@@ -143,10 +155,12 @@
 +    "@vitejs/plugin-react": "^4.0.0"
 +  }
 +}
-+
-*** End Patch
-*** Begin Patch
-*** Add File: bolt_integration/frontend/index.html
+diff --git a/bolt_integration/frontend/index.html b/bolt_integration/frontend/index.html
+new file mode 100644
+index 0000000..e69de29
+--- /dev/null
++++ b/bolt_integration/frontend/index.html
+@@ -0,0 +1,15 @@
 +<!doctype html>
 +<html>
 +  <head>
@@ -159,20 +173,24 @@
 +    <script type="module" src="/src/main.jsx"></script>
 +  </body>
 +</html>
-+
-*** End Patch
-*** Begin Patch
-*** Add File: bolt_integration/frontend/src/main.jsx
+diff --git a/bolt_integration/frontend/src/main.jsx b/bolt_integration/frontend/src/main.jsx
+new file mode 100644
+index 0000000..e69de29
+--- /dev/null
++++ b/bolt_integration/frontend/src/main.jsx
+@@ -0,0 +1,8 @@
 +import React from "react";
 +import { createRoot } from "react-dom/client";
 +import App from "./App";
 +import "./styles.css";
 +
 +createRoot(document.getElementById("root")).render(<App />);
-+
-*** End Patch
-*** Begin Patch
-*** Add File: bolt_integration/frontend/src/App.jsx
+diff --git a/bolt_integration/frontend/src/App.jsx b/bolt_integration/frontend/src/App.jsx
+new file mode 100644
+index 0000000..e69de29
+--- /dev/null
++++ b/bolt_integration/frontend/src/App.jsx
+@@ -0,0 +1,30 @@
 +import React from "react";
 +
 +export default function App() {
@@ -187,20 +205,27 @@
 +    </div>
 +  );
 +}
-+
-*** End Patch
-*** Begin Patch
-*** Add File: bolt_integration/frontend/src/styles.css
+diff --git a/bolt_integration/frontend/src/styles.css b/bolt_integration/frontend/src/styles.css
+new file mode 100644
+index 0000000..e69de29
+--- /dev/null
++++ b/bolt_integration/frontend/src/styles.css
+@@ -0,0 +1,2 @@
 +body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin: 0; padding: 0; }
 +div { color: #111827; }
+diff --git a/bolt_integration/.gitkeep b/bolt_integration/.gitkeep
+new file mode 100644
+index 0000000..e69de29
+--- /dev/null
++++ b/bolt_integration/.gitkeep
+@@ -0,0 +1 @@
 +
-*** End Patch
-*** Begin Patch
-*** Add File: bolt_integration/.gitkeep
-+
-*** End Patch
-*** Begin Patch
-*** Add File: bolt_integration/scripts/schedule_example.js
+diff --git a/bolt_integration/scripts/schedule_example.js b/bolt_integration/scripts/schedule_example.js
+new file mode 100644
+index 0000000..e69de29
+--- /dev/null
++++ b/bolt_integration/scripts/schedule_example.js
+@@ -0,0 +1,48 @@
 +const { ethers } = require("hardhat");
 +require("dotenv").config();
 +
@@ -228,10 +253,12 @@
 +}
 +
 +main().catch(console.error);
-+
-*** End Patch
-*** Begin Patch
-*** Add File: bolt_integration/scripts/execute_example.js
+diff --git a/bolt_integration/scripts/execute_example.js b/bolt_integration/scripts/execute_example.js
+new file mode 100644
+index 0000000..e69de29
+--- /dev/null
++++ b/bolt_integration/scripts/execute_example.js
+@@ -0,0 +1,48 @@
 +const { ethers } = require("hardhat");
 +require("dotenv").config();
 +
@@ -257,16 +284,15 @@
 +}
 +
 +main().catch(console.error);
-+
-*** End Patch
-*** Begin Patch
-*** Add File: bolt_integration/CI-GUIDE.md
+diff --git a/bolt_integration/CI-GUIDE.md b/bolt_integration/CI-GUIDE.md
+new file mode 100644
+index 0000000..e69de29
+--- /dev/null
++++ b/bolt_integration/CI-GUIDE.md
+@@ -0,0 +1,6 @@
 +CI Guide - minimal suggestions for GitHub Actions:
 +
 +- Run `npm ci` then `npx hardhat compile` on PRs.
 +- Optionally run a small test file validating deployment scripts (local network).
 +
 +This repo does not include the CI workflow to avoid overwriting your existing GH config.
-+
-*** End Patch
-*** End Patch
