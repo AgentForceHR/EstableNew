@@ -1,298 +1,264 @@
-diff --git a/bolt_integration/.env.example b/bolt_integration/.env.example
+From 2e3acb2f908d09bc09fa918f4d07e8b1fbbbbb11 Mon Sep 17 00:00:00 2001
+From: Estable Patch Generator
+Date: Wed, 15 Jan 2025 18:00:00 +0000
+Subject: [PATCH] Bolt integration, env config, vault factory wiring
+
+diff --git a/.env.example b/.env.example
 new file mode 100644
-index 0000000..e69de29
+index 0000000..2222222
 --- /dev/null
-+++ b/bolt_integration/.env.example
-@@ -0,0 +1,9 @@
-+# Bolt integration example env
-+PRIVATE_KEY=0xYOUR_PRIVATE_KEY_FOR_BASE_SEPOLIA
++++ b/.env.example
+@@ -0,0 +1,14 @@
++# Copy this file → .env
++
++# Wallet used for deployments (Base Sepolia)
++PRIVATE_KEY=
++
++# RPC URL
 +BASE_RPC=https://sepolia.base.org
-+TREASURY_ADDRESS=0x9017DE667f3835b3A7cb2D50013F65fC3d408BbE
-+TIMELOCK_DELAY=86400
-+FACTORY_OWNER_PRIVATE_KEY=0xYOUR_PRIVATE_KEY
-+FACTORY_OWNER_ADDRESS=0xYourOwnerAddress
-+FACTORY_ADDRESS=
-+VAULT_ASSET_ADDRESS=
-diff --git a/bolt_integration/scripts/deploy_all.js b/bolt_integration/scripts/deploy_all.js
++
++# Timelock contract (fill after deployment)
++TIMELOCK_ADDRESS=
++
++# VaultFactory contract (fill after deployment)
++VAULT_FACTORY_ADDRESS=
++
++ENV_NAME=development
+
+diff --git a/vite.config.ts b/vite.config.ts
+index ffffff1..bbbbbbb 100644
+--- a/vite.config.ts
++++ b/vite.config.ts
+@@ -1,6 +1,15 @@
+ import { defineConfig } from "vite";
+ import react from "@vitejs/plugin-react";
+ 
++// Load environment variables
++import dotenv from "dotenv";
++dotenv.config();
++
+ export default defineConfig({
+   plugins: [react()],
++  define: {
++    __ENV__: JSON.stringify({
++      timelock: process.env.TIMELOCK_ADDRESS || "",
++      factory: process.env.VAULT_FACTORY_ADDRESS || "",
++    }),
++  },
+ });
+
+diff --git a/wagmi.config.ts b/wagmi.config.ts
+index 08b8a90..aa55aaa 100644
+--- a/wagmi.config.ts
++++ b/wagmi.config.ts
+@@ -1,7 +1,25 @@
+ import { defineConfig } from "wagmi";
+-import { mainnet, base } from "wagmi/chains";
++import { mainnet, base, baseSepolia } from "wagmi/chains";
+ import { injected } from "wagmi/connectors";
+ 
+ export default defineConfig({
+-  chains: [mainnet, base],
+-  connectors: [injected()],
++  chains: [mainnet, base, baseSepolia],
++  connectors: [
++    injected({
++      target: "metaMask",
++    }),
++  ],
++  transports: {
++    [baseSepolia.id]: {
++      url: process.env.BASE_RPC || "https://sepolia.base.org"
++    },
++    [base.id]: {
++      url: "https://mainnet.base.org"
++    }
++  }
+ });
+
+diff --git a/lib/contracts.ts b/lib/contracts.ts
+index 9191919..3636363 100644
+--- a/lib/contracts.ts
++++ b/lib/contracts.ts
+@@ -1,6 +1,61 @@
+-export const CONTRACTS = {
+-  vault: "",
+-};
++// Dynamic contract loader used by frontend
++
++import deployed from "../contracts/deployed.json";
++
++export const getContractAddress = (name: string): string => {
++  // Prefer .env → then deployed.json → fall back empty
++
++  if (name === "timelock") {
++    return __ENV__.timelock || deployed.timelock || "";
++  }
++  if (name === "factory") {
++    return __ENV__.factory || deployed.factory || "";
++  }
++  return "";
++};
++
++export const loadABI = async (name: string): Promise<any> => {
++  const res = await fetch(`/contracts/${name}.json`);
++  return res.json();
++};
+
+diff --git a/lib/api.ts b/lib/api.ts
+index 44ac911..7777777 100644
+--- a/lib/api.ts
++++ b/lib/api.ts
+@@ -1,6 +1,58 @@
+-export const hello = () => "api";
++import { getContractAddress, loadABI } from "./contracts";
++import { createPublicClient, http, createWalletClient } from "viem";
++import { baseSepolia } from "viem/chains";
++
++export const client = createPublicClient({
++  chain: baseSepolia,
++  transport: http(process.env.BASE_RPC || "https://sepolia.base.org"),
++});
++
++export const getVaultsFromFactory = async () => {
++  const factoryAddr = getContractAddress("factory");
++  if (!factoryAddr) return [];
++
++  const abi = await loadABI("VaultFactory");
++
++  return client.readContract({
++    address: factoryAddr as `0x${string}`,
++    abi,
++    functionName: "getAllVaults",
++  });
++};
++
++export const getTimelockQueuedActions = async () => {
++  const timelock = getContractAddress("timelock");
++  if (!timelock) return [];
++
++  const abi = await loadABI("Timelock");
++
++  return client.readContract({
++    address: timelock as `0x${string}`,
++    abi,
++    functionName: "getPendingActions",
++  });
++};
+
+diff --git a/components/Vaults.tsx b/components/Vaults.tsx
+index 77aaaa7..88bbbb8 100644
+--- a/components/Vaults.tsx
++++ b/components/Vaults.tsx
+@@ -1,5 +1,29 @@
+ import React from "react";
+-import { useState } from "react";
++import { useState, useEffect } from "react";
++import { getVaultsFromFactory } from "../lib/api";
++
++export default function Vaults() {
++  const [vaults, setVaults] = useState<string[]>([]);
++
++  useEffect(() => {
++    (async () => {
++      const v = await getVaultsFromFactory();
++      if (Array.isArray(v)) {
++        setVaults(v);
++      }
++    })();
++  }, []);
++
++  if (!vaults.length) {
++    return <div>No vaults deployed yet.</div>;
++  }
++
++  return (
++    <div>
++      <h2>Deployed Vaults</h2>
++      <ul>
++        {vaults.map((v) => (
++          <li key={v}>{v}</li>
++        ))}
++      </ul>
++    </div>
++  );
++}
+
+diff --git a/contracts/deployed.json b/contracts/deployed.json
 new file mode 100644
-index 0000000..e69de29
+index 0000000..1111111
 --- /dev/null
-+++ b/bolt_integration/scripts/deploy_all.js
-@@ -0,0 +1,77 @@
-+// Deploy TimelockController, VaultFactory, and an example StableVault via factory.
-+// Requires environment variables set in bolt_integration/.env or system env:
-+// PRIVATE_KEY, BASE_RPC, TREASURY_ADDRESS, TIMELOCK_DELAY
-+const { ethers } = require("hardhat");
-+require("dotenv").config();
++++ b/contracts/deployed.json
+@@ -0,0 +1,6 @@
++{
++  "timelock": "",
++  "factory": "",
++  "vaults": []
++}
+
+diff --git a/scripts/deploy.js b/scripts/deploy.js
+index 8888888..5555555 100644
+--- a/scripts/deploy.js
++++ b/scripts/deploy.js
+@@ -1,6 +1,54 @@
+-// old deploy file
++import { ethers } from "hardhat";
++import fs from "fs";
 +
 +async function main() {
-+  const provider = new ethers.providers.JsonRpcProvider(process.env.BASE_RPC);
-+  const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
-+  console.log("Using deployer:", wallet.address);
++  const [deployer] = await ethers.getSigners();
 +
-+  // Deploy TimelockController
-+  const minDelay = parseInt(process.env.TIMELOCK_DELAY || "86400"); // default 24h
-+  const Timelock = await ethers.getContractFactory("TimelockController");
-+  console.log("Deploying TimelockController...");
-+  const timelock = await Timelock.connect(wallet).deploy(minDelay, [wallet.address], [ethers.constants.AddressZero]);
-+  await timelock.deployed();
-+  console.log("TimelockController:", timelock.address);
++  console.log("Deploying contracts using:", deployer.address);
 +
-+  // Deploy VaultFactory
-+  const treasury = process.env.TREASURY_ADDRESS;
-+  if (!treasury || treasury.length < 10) {
-+    throw new Error("Set TREASURY_ADDRESS in env");
-+  }
-+  const Factory = await ethers.getContractFactory("VaultFactory");
-+  console.log("Deploying VaultFactory...");
-+  const factory = await Factory.connect(wallet).deploy(treasury, timelock.address);
-+  await factory.deployed();
-+  console.log("VaultFactory:", factory.address);
++  // Example: deploy timelock or vaults AFTER you fill this in
++  // const Timelock = await ethers.getContractFactory("YourTimelock");
++  // const timelock = await Timelock.deploy(86400);
++  // await timelock.waitForDeployment();
 +
-+  // Optionally create an example StableVault via factory if ASSET provided
-+  const asset = process.env.VAULT_ASSET_ADDRESS;
-+  if (asset && asset.length > 10) {
-+    const name = "Estable StableVault (Example)";
-+    const symbol = "esSTBL";
-+    const minDeposit = ethers.BigNumber.from("100000000"); // 100 * 1e6
-+    console.log("Creating example vault via factory...");
-+    const tx = await factory.connect(wallet).createVault(asset, minDeposit, name, symbol);
-+    const receipt = await tx.wait();
-+    console.log("CreateVault tx:", receipt.transactionHash);
-+  } else {
-+    console.log("No VAULT_ASSET_ADDRESS set; skipping example vault creation.");
-+  }
++  // Save for frontend
++  const out = {
++    timelock: "",
++    factory: "",
++    vaults: [],
++  };
 +
-+  console.log("All done. Timelock:", timelock.address, "Factory:", factory.address);
++  fs.writeFileSync("./contracts/deployed.json", JSON.stringify(out, null, 2));
++
++  console.log("Deployment placeholder written → contracts/deployed.json");
 +}
 +
 +main().catch((err) => {
 +  console.error(err);
 +  process.exit(1);
 +});
-diff --git a/bolt_integration/scripts/export_abis.js b/bolt_integration/scripts/export_abis.js
-new file mode 100644
-index 0000000..e69de29
---- /dev/null
-+++ b/bolt_integration/scripts/export_abis.js
-@@ -0,0 +1,28 @@
-+const fs = require("fs");
-+const path = require("path");
+
+diff --git a/scripts/deploy-timelock.js b/scripts/deploy-timelock.js
+index eee1111..ccc3333 100644
+--- a/scripts/deploy-timelock.js
++++ b/scripts/deploy-timelock.js
+@@ -1,3 +1,46 @@
+-// placeholder
++import { ethers } from "hardhat";
++import fs from "fs";
 +
 +async function main() {
-+  const artifactsDir = "./artifacts/contracts";
-+  const outDir = "./bolt_integration/abis";
-+  if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
-+  const contracts = ["StableVaultTimelock", "VaultFactory", "TimelockController", "MorphoVaultTimelock", "MultiStrategyVaultTimelock", "RebalanceManagerTimelock"];
-+  for (const name of contracts) {
-+    const file = `${artifactsDir}/${name}.sol/${name}.json`;
-+    if (!fs.existsSync(file)) {
-+      console.warn("Artifact missing for", name, "- compile first");
-+      continue;
-+    }
-+    const json = JSON.parse(fs.readFileSync(file));
-+    fs.writeFileSync(path.join(outDir, `${name}.json`), JSON.stringify(json.abi, null, 2));
-+    console.log("Exported ABI for", name);
-+  }
++  const DELAY = 86400; // 24h, user will adjust later
++
++  const Timelock = await ethers.getContractFactory("Timelockable");
++  const timelock = await Timelock.deploy(DELAY);
++  await timelock.waitForDeployment();
++
++  console.log("Timelock deployed at:", timelock.target);
++
++  // update frontend deploy file
++  const deployed = JSON.parse(fs.readFileSync("./contracts/deployed.json"));
++  deployed.timelock = timelock.target;
++  fs.writeFileSync("./contracts/deployed.json", JSON.stringify(deployed, null, 2));
 +}
 +
-+main().catch(console.error);
-diff --git a/bolt_integration/README-BOLT.md b/bolt_integration/README-BOLT.md
-new file mode 100644
-index 0000000..e69de29
---- /dev/null
-+++ b/bolt_integration/README-BOLT.md
-@@ -0,0 +1,22 @@
-+# Bolt Integration - Estable
-+
-+This folder contains helper scripts and ABI export for Bolt.new integration and for deploying to Base Sepolia.
-+
-+How to use:
-+
-+1. Copy `.env.example` to `.env` and set `PRIVATE_KEY`, `BASE_RPC`, `TREASURY_ADDRESS`, etc.
-+2. Install dependencies at repo root:
-+   ```bash
-+   npm install
-+   ```
-+3. Compile contracts:
-+   ```bash
-+   npx hardhat compile
-+   ```
-+4. Export ABIs for frontend:
-+   ```bash
-+   node bolt_integration/scripts/export_abis.js
-+   ```
-+5. Deploy everything (timelock + factory, and optional example vault):
-+   ```bash
-+   node bolt_integration/scripts/deploy_all.js
-+   ```
-+
-+Bolt usage:
-+- Push repo to GitHub and connect Bolt.new to it.
-+- Bolt will detect scripts under `bolt_integration/scripts` and show deploy buttons.
-diff --git a/bolt_integration/frontend/package.json b/bolt_integration/frontend/package.json
-new file mode 100644
-index 0000000..e69de29
---- /dev/null
-+++ b/bolt_integration/frontend/package.json
-@@ -0,0 +1,27 @@
-+{
-+  "name": "estable-bolt-ui",
-+  "private": true,
-+  "scripts": {
-+    "dev": "vite",
-+    "build": "vite build",
-+    "preview": "vite preview"
-+  },
-+  "dependencies": {
-+    "ethers": "^6.8.0",
-+    "react": "^18.2.0",
-+    "react-dom": "^18.2.0",
-+    "wagmi": "^2.8.0"
-+  },
-+  "devDependencies": {
-+    "vite": "^5.1.0",
-+    "@vitejs/plugin-react": "^4.0.0"
-+  }
-+}
-diff --git a/bolt_integration/frontend/index.html b/bolt_integration/frontend/index.html
-new file mode 100644
-index 0000000..e69de29
---- /dev/null
-+++ b/bolt_integration/frontend/index.html
-@@ -0,0 +1,15 @@
-+<!doctype html>
-+<html>
-+  <head>
-+    <meta charset="utf-8" />
-+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-+    <title>Estable Bolt UI</title>
-+  </head>
-+  <body>
-+    <div id="root"></div>
-+    <script type="module" src="/src/main.jsx"></script>
-+  </body>
-+</html>
-diff --git a/bolt_integration/frontend/src/main.jsx b/bolt_integration/frontend/src/main.jsx
-new file mode 100644
-index 0000000..e69de29
---- /dev/null
-+++ b/bolt_integration/frontend/src/main.jsx
-@@ -0,0 +1,8 @@
-+import React from "react";
-+import { createRoot } from "react-dom/client";
-+import App from "./App";
-+import "./styles.css";
-+
-+createRoot(document.getElementById("root")).render(<App />);
-diff --git a/bolt_integration/frontend/src/App.jsx b/bolt_integration/frontend/src/App.jsx
-new file mode 100644
-index 0000000..e69de29
---- /dev/null
-+++ b/bolt_integration/frontend/src/App.jsx
-@@ -0,0 +1,30 @@
-+import React from "react";
-+
-+export default function App() {
-+  return (
-+    <div style={{ padding: 20 }}>
-+      <h1>Estable - Bolt UI</h1>
-+      <p>
-+        This is a minimal UI used by Bolt for manual testing. Use the left Bolt panel
-+        to deploy contracts and the Scripts tab to run deploy scripts.
-+      </p>
-+      <p>Open the console to see RPC interactions.</p>
-+    </div>
-+  );
-+}
-diff --git a/bolt_integration/frontend/src/styles.css b/bolt_integration/frontend/src/styles.css
-new file mode 100644
-index 0000000..e69de29
---- /dev/null
-+++ b/bolt_integration/frontend/src/styles.css
-@@ -0,0 +1,2 @@
-+body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin: 0; padding: 0; }
-+div { color: #111827; }
-diff --git a/bolt_integration/.gitkeep b/bolt_integration/.gitkeep
-new file mode 100644
-index 0000000..e69de29
---- /dev/null
-+++ b/bolt_integration/.gitkeep
-@@ -0,0 +1 @@
-+
-diff --git a/bolt_integration/scripts/schedule_example.js b/bolt_integration/scripts/schedule_example.js
-new file mode 100644
-index 0000000..e69de29
---- /dev/null
-+++ b/bolt_integration/scripts/schedule_example.js
-@@ -0,0 +1,48 @@
-+const { ethers } = require("hardhat");
-+require("dotenv").config();
-+
-+async function main() {
-+  const timelockAddr = process.env.TIMELOCK_ADDRESS;
-+  const vaultAddr = process.env.VAULT_ADDRESS;
-+  if (!timelockAddr || !vaultAddr) {
-+    console.error("Set TIMELOCK_ADDRESS and VAULT_ADDRESS in env");
-+    return;
-+  }
-+  const provider = new ethers.providers.JsonRpcProvider(process.env.BASE_RPC);
-+  const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
-+  const timelock = await ethers.getContractAt("TimelockController", timelockAddr);
-+
-+  const iface = new ethers.utils.Interface(["function updateFees(uint256)"]);
-+  const data = iface.encodeFunctionData("updateFees", [1500]); // 15%
-+
-+  const delay = parseInt(process.env.TIMELOCK_DELAY || "86400");
-+  const predecessor = ethers.constants.HashZero;
-+  const salt = ethers.utils.id("schedule-example-1");
-+
-+  const tx = await timelock.connect(wallet).schedule(vaultAddr, 0, data, predecessor, salt, delay);
-+  await tx.wait();
-+  console.log("Scheduled. Salt:", salt);
-+}
-+
-+main().catch(console.error);
-diff --git a/bolt_integration/scripts/execute_example.js b/bolt_integration/scripts/execute_example.js
-new file mode 100644
-index 0000000..e69de29
---- /dev/null
-+++ b/bolt_integration/scripts/execute_example.js
-@@ -0,0 +1,48 @@
-+const { ethers } = require("hardhat");
-+require("dotenv").config();
-+
-+async function main() {
-+  const timelockAddr = process.env.TIMELOCK_ADDRESS;
-+  const vaultAddr = process.env.VAULT_ADDRESS;
-+  if (!timelockAddr || !vaultAddr) {
-+    console.error("Set TIMELOCK_ADDRESS and VAULT_ADDRESS in env");
-+    return;
-+  }
-+  const provider = new ethers.providers.JsonRpcProvider(process.env.BASE_RPC);
-+  const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
-+  const timelock = await ethers.getContractAt("TimelockController", timelockAddr);
-+
-+  const iface = new ethers.utils.Interface(["function updateFees(uint256)"]);
-+  const data = iface.encodeFunctionData("updateFees", [1500]);
-+  const predecessor = ethers.constants.HashZero;
-+  const salt = ethers.utils.id("schedule-example-1");
-+
-+  const tx = await timelock.connect(wallet).execute(vaultAddr, 0, data, predecessor, salt);
-+  await tx.wait();
-+  console.log("Executed scheduled op.");
-+}
-+
-+main().catch(console.error);
-diff --git a/bolt_integration/CI-GUIDE.md b/bolt_integration/CI-GUIDE.md
-new file mode 100644
-index 0000000..e69de29
---- /dev/null
-+++ b/bolt_integration/CI-GUIDE.md
-@@ -0,0 +1,6 @@
-+CI Guide - minimal suggestions for GitHub Actions:
-+
-+- Run `npm ci` then `npx hardhat compile` on PRs.
-+- Optionally run a small test file validating deployment scripts (local network).
-+
-+This repo does not include the CI workflow to avoid overwriting your existing GH config.
++main().catch((err) => {
++  console.error(err);
++  process.exit(1);
++});
+--
+2.34.1
