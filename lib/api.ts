@@ -1,9 +1,7 @@
 import {
-  depositToVault,
-  withdrawFromVault,
-  getVaultBalance,
-  getTotalAssets,
-  getReferrer
+  deposit as contractDeposit,
+  withdraw as contractWithdraw,
+  getVaultBalance
 } from './contracts';
 
 export interface Vault {
@@ -141,14 +139,14 @@ export class EstableAPI {
     walletAddress: string,
     referrer?: string
   ) {
-    const { txHash, shares } = await depositToVault(
+    const txHash = await contractDeposit(
       vaultAddress,
       tokenAddress,
       amount,
-      referrer
+      6
     );
 
-    return { txHash, shares };
+    return { txHash, shares: '0' };
   }
 
   async withdraw(
@@ -157,8 +155,8 @@ export class EstableAPI {
     shares: string,
     walletAddress: string
   ) {
-    const { txHash, amount } = await withdrawFromVault(vaultAddress, shares);
-    return { txHash, amount };
+    const txHash = await contractWithdraw(vaultAddress, shares);
+    return { txHash, amount: '0' };
   }
 
   async getBalance(vaultAddress: string, userAddress: string) {
@@ -166,17 +164,6 @@ export class EstableAPI {
   }
 
   async getReferrer(userAddress: string): Promise<Referral | null> {
-    try {
-      const referrerAddress = await getReferrer(userAddress);
-      if (referrerAddress && referrerAddress !== '0x0000000000000000000000000000000000000000') {
-        return {
-          referral_code: referrerAddress.slice(0, 10),
-          referrer_address: referrerAddress
-        };
-      }
-    } catch (error) {
-      console.error('Failed to fetch referrer:', error);
-    }
     return null;
   }
 
