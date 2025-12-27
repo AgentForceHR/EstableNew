@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { api } from '../lib/api';
 
 const Hero: React.FC = () => {
@@ -100,7 +101,25 @@ const Hero: React.FC = () => {
             </div>
           </div>
 
-          <div className="mt-12 bg-gradient-to-r from-brand-green/10 to-blue-500/10 border border-brand-green/20 p-6 rounded-xl">
+          <div className="mt-12 bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 p-6 rounded-xl">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <span className="text-3xl">🧪</span>
+                <div className="text-left">
+                  <p className="font-semibold text-blue-400">Try on Testnet</p>
+                  <p className="text-sm text-brand-gray">Test all features with free tokens on Base Sepolia</p>
+                </div>
+              </div>
+              <Link
+                to="/testnet"
+                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg transition-all whitespace-nowrap"
+              >
+                Launch Testnet
+              </Link>
+            </div>
+          </div>
+
+          <div className="mt-6 bg-gradient-to-r from-brand-green/10 to-blue-500/10 border border-brand-green/20 p-6 rounded-xl">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <span className="text-3xl">🎁</span>
