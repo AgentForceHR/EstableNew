@@ -1,0 +1,45 @@
+{
+  "network": "base_sepolia",
+  "chainId": 84532,
+  "vaultFactory": "0xE990156c0ee554Bdb84247C79E73Aa9B90d8faa6",
+  "tokens": {
+    "USDC": {
+      "address": "0x93C71E780804703547c1D073243BAA3eFF2df743",
+      "decimals": 6
+    },
+    "USDT": {
+      "address": "0x5B2Be5F02eecF100491f9F65c7fa62BA964Fd5aC",
+      "decimals": 6
+    },
+    "DAI": {
+      "address": "0x83efDB98ADD5a23337273552c6F41df4997B094A",
+      "decimals": 18
+    }
+  },
+  "stableVaults": [
+    {
+      "id": "usdc",
+      "name": "USDC Vault",
+      "assetSymbol": "USDC",
+      "assetAddress": "0x93C71E780804703547c1D073243BAA3eFF2df743",
+      "vaultAddress": "0x7e4e46668206FE9Ee5180C79AD9A850517b49500",
+      "decimals": 6
+    },
+    {
+      "id": "usdt",
+      "name": "USDT Vault",
+      "assetSymbol": "USDT",
+      "assetAddress": "0x5B2Be5F02eecF100491f9F65c7fa62BA964Fd5aC",
+      "vaultAddress": "0x2412ffdeDD5dD812449578570D285917f75bCE66",
+      "decimals": 6
+    },
+    {
+      "id": "dai",
+      "name": "DAI Vault",
+      "assetSymbol": "DAI",
+      "assetAddress": "0x83efDB98ADD5a23337273552c6F41df4997B094A",
+      "vaultAddress": "0xdE5A333F5c87F1609dff3B26b2A85D671142CEC5",
+      "decimals": 18
+    }
+  ]
+}
