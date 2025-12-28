@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useAccount } from 'wagmi';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { getVaults, approveToken, deposit, withdraw, getTokenBalance, getVaultBalance } from '../lib/contracts';
+import { ethers } from 'ethers';
 import FaucetButtons from './FaucetButtons';
 
 interface VaultData {
@@ -11,6 +12,13 @@ interface VaultData {
   assetAddress: string;
   vaultAddress: string;
   decimals: number;
+}
+
+interface UserVaultData {
+  token: string;
+  shares: string;
+  value: string;
+  depositedAmount: string;
 }
 
 const Vaults: React.FC = () => {
@@ -23,7 +31,7 @@ const Vaults: React.FC = () => {
   const [withdrawShares, setWithdrawShares] = useState('');
   const [mode, setMode] = useState<'deposit' | 'withdraw'>('deposit');
   const [processing, setProcessing] = useState(false);
-  const [userBalances, setUserBalances] = useState<Record<string, { token: string; shares: string }>>({});
+  const [userBalances, setUserBalances] = useState<Record<string, UserVaultData>>({});
 
   useEffect(() => {
     loadVaults();
@@ -32,35 +40,64 @@ const Vaults: React.FC = () => {
   useEffect(() => {
     if (address && vaults.length > 0) {
       loadBalances();
+      const interval = setInterval(() => {
+        loadBalances();
+      }, 10000);
+      return () => clearInterval(interval);
     }
-  }, [address, vaults]);
+  }, [address, vaults.length]);
 
   const loadVaults = () => {
     const data = getVaults();
     setVaults(data);
   };
 
-  const loadBalances = async () => {
+  const loadBalances = useCallback(async () => {
     if (!address) return;
 
-    const balances: Record<string, { token: string; shares: string }> = {};
+    const balances: Record<string, UserVaultData> = {};
 
     for (const vault of vaults) {
       try {
         const tokenBalance = await getTokenBalance(vault.assetAddress, address);
         const vaultBalance = await getVaultBalance(vault.vaultAddress, address);
+
+        let value = '0';
+        if (parseFloat(vaultBalance) > 0) {
+          const provider = new ethers.BrowserProvider(window.ethereum);
+          const vaultContract = new ethers.Contract(
+            vault.vaultAddress,
+            ['function totalAssets() view returns (uint256)', 'function totalSupply() view returns (uint256)'],
+            provider
+          );
+
+          const totalAssets = await vaultContract.totalAssets();
+          const totalSupply = await vaultContract.totalSupply();
+
+          if (totalSupply > 0n) {
+            const sharesBigInt = ethers.parseUnits(vaultBalance, 18);
+            const userAssets = (sharesBigInt * totalAssets) / totalSupply;
+            value = ethers.formatUnits(userAssets, vault.decimals);
+          }
+        }
+
+        const depositKey = `${address}-${vault.id}`;
+        const depositedAmount = localStorage.getItem(depositKey) || '0';
+
         balances[vault.id] = {
           token: tokenBalance,
-          shares: vaultBalance
+          shares: vaultBalance,
+          value: value,
+          depositedAmount: depositedAmount
         };
       } catch (error) {
         console.error(`Failed to load balance for ${vault.id}:`, error);
-        balances[vault.id] = { token: '0', shares: '0' };
+        balances[vault.id] = { token: '0', shares: '0', value: '0', depositedAmount: '0' };
       }
     }
 
     setUserBalances(balances);
-  };
+  }, [address, vaults]);
 
   const handleDeposit = async () => {
     if (!selectedVault || !depositAmount || !isConnected || !address) {
@@ -91,10 +128,15 @@ const Vaults: React.FC = () => {
         selectedVault.decimals
       );
 
+      const depositKey = `${address}-${selectedVault.id}`;
+      const currentDeposited = parseFloat(localStorage.getItem(depositKey) || '0');
+      const newDeposited = currentDeposited + amount;
+      localStorage.setItem(depositKey, newDeposited.toString());
+
       alert('Deposit successful!');
       setDepositAmount('');
       setSelectedVault(null);
-      loadBalances();
+      await loadBalances();
     } catch (error: any) {
       console.error('Deposit failed:', error);
       alert(error.message || 'Deposit failed. Please try again.');
@@ -120,16 +162,44 @@ const Vaults: React.FC = () => {
     try {
       await withdraw(selectedVault.vaultAddress, withdrawShares);
 
+      const depositKey = `${address}-${selectedVault.id}`;
+      const withdrawnPercent = shares / parseFloat(userBalances[selectedVault.id]?.shares || '1');
+      const currentDeposited = parseFloat(localStorage.getItem(depositKey) || '0');
+      const newDeposited = currentDeposited * (1 - withdrawnPercent);
+      localStorage.setItem(depositKey, newDeposited.toString());
+
       alert('Withdrawal successful!');
       setWithdrawShares('');
       setSelectedVault(null);
-      loadBalances();
+      await loadBalances();
     } catch (error: any) {
       console.error('Withdrawal failed:', error);
       alert(error.message || 'Withdrawal failed. Please try again.');
     } finally {
       setProcessing(false);
     }
+  };
+
+  const calculateTotalDeposited = () => {
+    if (!address) return 0;
+    return vaults.reduce((sum, vault) => {
+      const balance = userBalances[vault.id];
+      return sum + parseFloat(balance?.depositedAmount || '0');
+    }, 0);
+  };
+
+  const calculateTotalValue = () => {
+    if (!address) return 0;
+    return vaults.reduce((sum, vault) => {
+      const balance = userBalances[vault.id];
+      return sum + parseFloat(balance?.value || '0');
+    }, 0);
+  };
+
+  const calculateTotalYield = () => {
+    const totalDeposited = calculateTotalDeposited();
+    const totalValue = calculateTotalValue();
+    return totalValue - totalDeposited;
   };
 
   return (
@@ -148,6 +218,33 @@ const Vaults: React.FC = () => {
 
         <FaucetButtons />
 
+        {address && calculateTotalValue() > 0 && (
+          <div className="bg-gradient-to-r from-brand-green/10 to-blue-500/10 border border-brand-green/20 rounded-xl p-8 mb-8">
+            <h3 className="text-2xl font-bold mb-6">Your Portfolio</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div>
+                <div className="text-sm text-brand-gray mb-2">Total Deposited</div>
+                <div className="text-3xl font-bold">${calculateTotalDeposited().toFixed(2)}</div>
+              </div>
+              <div>
+                <div className="text-sm text-brand-gray mb-2">Current Value</div>
+                <div className="text-3xl font-bold text-brand-green">${calculateTotalValue().toFixed(2)}</div>
+              </div>
+              <div>
+                <div className="text-sm text-brand-gray mb-2">Total Yield Earned</div>
+                <div className={`text-3xl font-bold ${calculateTotalYield() >= 0 ? 'text-brand-green' : 'text-red-500'}`}>
+                  ${calculateTotalYield().toFixed(2)}
+                  {calculateTotalYield() > 0 && calculateTotalDeposited() > 0 && (
+                    <span className="text-sm ml-2">
+                      (+{((calculateTotalYield() / calculateTotalDeposited()) * 100).toFixed(2)}%)
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           {vaults.map((vault) => (
             <div
@@ -165,26 +262,54 @@ const Vaults: React.FC = () => {
               </div>
 
               <div className="space-y-4 mb-8">
-                {address && userBalances[vault.id] && (
+                {address && userBalances[vault.id] && parseFloat(userBalances[vault.id].value) > 0 ? (
                   <>
                     <div className="flex justify-between">
-                      <span className="text-brand-gray">Your Balance</span>
+                      <span className="text-brand-gray">Deposited</span>
+                      <span className="font-semibold">{parseFloat(userBalances[vault.id].depositedAmount).toFixed(2)} {vault.assetSymbol}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-brand-gray">Current Value</span>
+                      <span className="font-semibold text-brand-green">{parseFloat(userBalances[vault.id].value).toFixed(2)} {vault.assetSymbol}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-brand-gray">Yield Earned</span>
+                      <span className={`font-semibold ${(parseFloat(userBalances[vault.id].value) - parseFloat(userBalances[vault.id].depositedAmount)) >= 0 ? 'text-brand-green' : 'text-red-500'}`}>
+                        {(parseFloat(userBalances[vault.id].value) - parseFloat(userBalances[vault.id].depositedAmount)).toFixed(4)} {vault.assetSymbol}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-brand-gray">Shares</span>
+                      <span className="font-semibold text-sm">{parseFloat(userBalances[vault.id].shares).toFixed(4)}</span>
+                    </div>
+                  </>
+                ) : address && userBalances[vault.id] ? (
+                  <>
+                    <div className="flex justify-between">
+                      <span className="text-brand-gray">Wallet Balance</span>
                       <span className="font-semibold">{parseFloat(userBalances[vault.id].token).toFixed(2)} {vault.assetSymbol}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-brand-gray">Your Shares</span>
-                      <span className="font-semibold">{parseFloat(userBalances[vault.id].shares).toFixed(4)}</span>
+                      <span className="text-brand-gray">Asset</span>
+                      <span className="font-semibold">{vault.assetSymbol}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-brand-gray">Network</span>
+                      <span className="font-semibold">Base Sepolia</span>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex justify-between">
+                      <span className="text-brand-gray">Asset</span>
+                      <span className="font-semibold">{vault.assetSymbol}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-brand-gray">Network</span>
+                      <span className="font-semibold">Base Sepolia</span>
                     </div>
                   </>
                 )}
-                <div className="flex justify-between">
-                  <span className="text-brand-gray">Asset</span>
-                  <span className="font-semibold">{vault.assetSymbol}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-brand-gray">Network</span>
-                  <span className="font-semibold">Base Sepolia</span>
-                </div>
               </div>
 
               <div className="space-y-2">
