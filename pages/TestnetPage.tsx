@@ -17,11 +17,11 @@ const TestnetPage: React.FC = () => {
                 className="inline-flex items-center gap-2 text-brand-gray hover:text-brand-light transition-colors mb-6"
               >
                 <span>←</span>
-                <span>Back to Home</span>
+                <span>Volver al Inicio</span>
               </Link>
               <h1 className="text-5xl font-bold mb-4">Base Sepolia Testnet</h1>
               <p className="text-brand-gray text-lg max-w-2xl mx-auto">
-                Try our vaults on the testnet with free test tokens. Test all functionality before using mainnet.
+                Prueba nuestros vaults en testnet con tokens de prueba gratuitos. Prueba toda la funcionalidad antes de usar mainnet.
               </p>
             </div>
           </div>

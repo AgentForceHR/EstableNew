@@ -133,13 +133,13 @@ const Vaults: React.FC = () => {
 
   const handleDeposit = async () => {
     if (!selectedVault || !depositAmount || !isConnected || !address) {
-      alert('Please connect your wallet and enter an amount');
+      alert('Por favor conecta tu wallet e ingresa una cantidad');
       return;
     }
 
     const amount = parseFloat(depositAmount);
     if (amount <= 0) {
-      alert('Please enter a valid amount');
+      alert('Por favor ingresa una cantidad válida');
       return;
     }
 
@@ -167,13 +167,13 @@ const Vaults: React.FC = () => {
       });
       saveDepositRecords(selectedVault.id, deposits);
 
-      alert('Deposit successful!');
+      alert('¡Depósito exitoso!');
       setDepositAmount('');
       setSelectedVault(null);
       await loadBalances();
     } catch (error: any) {
       console.error('Deposit failed:', error);
-      alert(error.message || 'Deposit failed. Please try again.');
+      alert(error.message || 'Depósito fallido. Por favor intenta de nuevo.');
     } finally {
       setProcessing(false);
     }
@@ -181,13 +181,13 @@ const Vaults: React.FC = () => {
 
   const handleWithdraw = async () => {
     if (!selectedVault || !withdrawShares || !isConnected || !address) {
-      alert('Please connect your wallet and enter shares amount');
+      alert('Por favor conecta tu wallet e ingresa la cantidad de shares');
       return;
     }
 
     const shares = parseFloat(withdrawShares);
     if (shares <= 0) {
-      alert('Please enter a valid shares amount');
+      alert('Por favor ingresa una cantidad válida de shares');
       return;
     }
 
@@ -207,13 +207,13 @@ const Vaults: React.FC = () => {
 
       saveDepositRecords(selectedVault.id, newDeposits);
 
-      alert('Withdrawal successful!');
+      alert('¡Retiro exitoso!');
       setWithdrawShares('');
       setSelectedVault(null);
       await loadBalances();
     } catch (error: any) {
       console.error('Withdrawal failed:', error);
-      alert(error.message || 'Withdrawal failed. Please try again.');
+      alert(error.message || 'Retiro fallido. Por favor intenta de nuevo.');
     } finally {
       setProcessing(false);
     }
@@ -287,19 +287,19 @@ const Vaults: React.FC = () => {
 
         {address && calculateTotalValue() > 0 && (
           <div className="bg-gradient-to-r from-brand-green/10 to-blue-500/10 border border-brand-green/20 rounded-xl p-8 mb-8">
-            <h3 className="text-2xl font-bold mb-6">Your Portfolio</h3>
+            <h3 className="text-2xl font-bold mb-6">Tu Portafolio</h3>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
               <div>
-                <div className="text-sm text-brand-gray mb-2">Total Deposited</div>
+                <div className="text-sm text-brand-gray mb-2">Total Depositado</div>
                 <div className="text-3xl font-bold">${calculateTotalDeposited().toFixed(2)}</div>
               </div>
               <div>
-                <div className="text-sm text-brand-gray mb-2">Current Value</div>
+                <div className="text-sm text-brand-gray mb-2">Valor Actual</div>
                 <div className="text-3xl font-bold text-brand-green">${calculateTotalValue().toFixed(2)}</div>
               </div>
               <div>
-                <div className="text-sm text-brand-gray mb-2">Total Yield Earned</div>
+                <div className="text-sm text-brand-gray mb-2">Rendimiento Total Ganado</div>
                 <div className="text-3xl font-bold text-brand-green">
                   ${calculateTotalYield().toFixed(4)}
                   {calculateTotalYield() > 0 && calculateTotalDeposited() > 0 && (
@@ -313,7 +313,7 @@ const Vaults: React.FC = () => {
 
             <div className="bg-brand-dark/50 rounded-lg p-6">
               <div className="flex justify-between items-center mb-3">
-                <span className="text-sm text-brand-gray">APY Progress (15% Annual Target)</span>
+                <span className="text-sm text-brand-gray">Progreso APY (Meta Anual 15%)</span>
                 <span className="text-sm font-semibold text-brand-green">{calculateProgress().toFixed(2)}%</span>
               </div>
               <div className="w-full bg-brand-gray/20 rounded-full h-4 overflow-hidden">
@@ -324,10 +324,10 @@ const Vaults: React.FC = () => {
               </div>
               <div className="flex justify-between items-center mt-3">
                 <span className="text-xs text-brand-gray">
-                  {getDaysElapsed().toFixed(1)} days earning
+                  {getDaysElapsed().toFixed(1)} días ganando
                 </span>
                 <span className="text-xs text-brand-gray">
-                  Target: ${(calculateTotalDeposited() * APY).toFixed(2)} / year
+                  Meta: ${(calculateTotalDeposited() * APY).toFixed(2)} / año
                 </span>
               </div>
             </div>
@@ -360,22 +360,22 @@ const Vaults: React.FC = () => {
                   {hasDeposits ? (
                     <>
                       <div className="flex justify-between">
-                        <span className="text-brand-gray">Deposited</span>
+                        <span className="text-brand-gray">Depositado</span>
                         <span className="font-semibold">{vaultDeposited.toFixed(2)} {vault.assetSymbol}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-brand-gray">Current Value</span>
+                        <span className="text-brand-gray">Valor Actual</span>
                         <span className="font-semibold text-brand-green">{parseFloat(userBalances[vault.id].value).toFixed(2)} {vault.assetSymbol}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-brand-gray">Yield Earned</span>
+                        <span className="text-brand-gray">Rendimiento Ganado</span>
                         <span className="font-semibold text-brand-green">
                           +{vaultYield.toFixed(4)} {vault.assetSymbol}
                         </span>
                       </div>
                       <div className="pt-2">
                         <div className="flex justify-between items-center mb-2">
-                          <span className="text-xs text-brand-gray">APY Progress</span>
+                          <span className="text-xs text-brand-gray">Progreso APY</span>
                           <span className="text-xs font-semibold text-brand-green">{vaultProgress.toFixed(1)}%</span>
                         </div>
                         <div className="w-full bg-brand-gray/20 rounded-full h-2 overflow-hidden">
@@ -389,26 +389,26 @@ const Vaults: React.FC = () => {
                   ) : address && userBalances[vault.id] ? (
                     <>
                       <div className="flex justify-between">
-                        <span className="text-brand-gray">Wallet Balance</span>
+                        <span className="text-brand-gray">Balance Wallet</span>
                         <span className="font-semibold">{parseFloat(userBalances[vault.id].token).toFixed(2)} {vault.assetSymbol}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-brand-gray">Asset</span>
+                        <span className="text-brand-gray">Activo</span>
                         <span className="font-semibold">{vault.assetSymbol}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-brand-gray">Network</span>
+                        <span className="text-brand-gray">Red</span>
                         <span className="font-semibold">Base Sepolia</span>
                       </div>
                     </>
                   ) : (
                     <>
                       <div className="flex justify-between">
-                        <span className="text-brand-gray">Asset</span>
+                        <span className="text-brand-gray">Activo</span>
                         <span className="font-semibold">{vault.assetSymbol}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-brand-gray">Network</span>
+                        <span className="text-brand-gray">Red</span>
                         <span className="font-semibold">Base Sepolia</span>
                       </div>
                     </>
@@ -423,7 +423,7 @@ const Vaults: React.FC = () => {
                     }}
                     className="w-full bg-brand-green hover:bg-brand-green/90 text-brand-dark font-semibold py-3 rounded-lg transition-all"
                   >
-                    Deposit
+                    Depositar
                   </button>
                   <button
                     onClick={() => {
@@ -432,7 +432,7 @@ const Vaults: React.FC = () => {
                     }}
                     className="w-full bg-brand-gray/20 hover:bg-brand-gray/30 text-brand-light font-semibold py-3 rounded-lg transition-all"
                   >
-                    Withdraw
+                    Retirar
                   </button>
                 </div>
               </div>
@@ -497,7 +497,7 @@ const Vaults: React.FC = () => {
                   <>
                     <div className="mb-6">
                       <label className="block text-sm text-brand-gray mb-2">
-                        Amount to Deposit ({selectedVault.assetSymbol})
+                        Cantidad a Depositar ({selectedVault.assetSymbol})
                       </label>
                       <input
                         type="number"
@@ -508,13 +508,13 @@ const Vaults: React.FC = () => {
                       />
                       {userBalances[selectedVault.id] && (
                         <p className="text-xs text-brand-gray mt-2">
-                          Available: {parseFloat(userBalances[selectedVault.id].token).toFixed(2)} {selectedVault.assetSymbol}
+                          Disponible: {parseFloat(userBalances[selectedVault.id].token).toFixed(2)} {selectedVault.assetSymbol}
                         </p>
                       )}
                     </div>
 
                     <div className="mb-6 bg-brand-green/10 border border-brand-green/20 rounded-lg p-4">
-                      <div className="text-sm text-brand-gray mb-1">Expected Annual Yield</div>
+                      <div className="text-sm text-brand-gray mb-1">Rendimiento Anual Esperado</div>
                       <div className="text-lg font-bold text-brand-green">
                         {depositAmount && parseFloat(depositAmount) > 0
                           ? `+${(parseFloat(depositAmount) * APY).toFixed(2)} ${selectedVault.assetSymbol}`
@@ -527,14 +527,14 @@ const Vaults: React.FC = () => {
                       disabled={!depositAmount || parseFloat(depositAmount) <= 0 || processing}
                       className="w-full bg-brand-green hover:bg-brand-green/90 disabled:bg-brand-gray/20 disabled:cursor-not-allowed text-brand-dark font-semibold py-3 rounded-lg transition-all"
                     >
-                      {processing ? 'Processing...' : `Deposit ${depositAmount || ''}`}
+                      {processing ? 'Procesando...' : `Depositar ${depositAmount || ''}`}
                     </button>
                   </>
                 ) : (
                   <>
                     <div className="mb-6">
                       <label className="block text-sm text-brand-gray mb-2">
-                        Shares to Withdraw
+                        Shares a Retirar
                       </label>
                       <input
                         type="number"
@@ -545,7 +545,7 @@ const Vaults: React.FC = () => {
                       />
                       {userBalances[selectedVault.id] && (
                         <p className="text-xs text-brand-gray mt-2">
-                          Available: {parseFloat(userBalances[selectedVault.id].shares).toFixed(4)} shares
+                          Disponible: {parseFloat(userBalances[selectedVault.id].shares).toFixed(4)} shares
                         </p>
                       )}
                     </div>
@@ -555,13 +555,13 @@ const Vaults: React.FC = () => {
                       disabled={!withdrawShares || parseFloat(withdrawShares) <= 0 || processing}
                       className="w-full bg-brand-green hover:bg-brand-green/90 disabled:bg-brand-gray/20 disabled:cursor-not-allowed text-brand-dark font-semibold py-3 rounded-lg transition-all"
                     >
-                      {processing ? 'Processing...' : `Withdraw ${withdrawShares || ''}`}
+                      {processing ? 'Procesando...' : `Retirar ${withdrawShares || ''}`}
                     </button>
                   </>
                 )}
 
                 <p className="text-xs text-brand-gray text-center mt-4">
-                  Shares use 18 decimals
+                  Los shares usan 18 decimales
                 </p>
               </div>
             )}
