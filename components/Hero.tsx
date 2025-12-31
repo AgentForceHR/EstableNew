@@ -87,14 +87,14 @@ const Hero: React.FC = () => {
             </div>
             <div className="bg-brand-card p-6 rounded-xl border border-brand-gray/20 hover:border-brand-green/50 transition-all">
               <div className="text-3xl font-bold text-brand-green mb-2">{formatTVL(stats.totalTVL)}</div>
-              <div className="text-brand-gray">Total Value Locked</div>
+              <div className="text-brand-gray">Valor Total Bloqueado</div>
               <div className="text-xs text-brand-gray mt-2">
-                Morpho Blue + Spark.fi integrations
+                Integraciones con Morpho Blue + Spark.fi
               </div>
             </div>
             <div className="bg-brand-card p-6 rounded-xl border border-brand-gray/20 hover:border-brand-green/50 transition-all">
               <div className="text-3xl font-bold text-brand-green mb-2">Base L2</div>
-              <div className="text-brand-gray">Network de bajas fees</div>
+              <div className="text-brand-gray">Red de bajas comisiones</div>
               <div className="text-xs text-brand-gray mt-2">
                 Transacciones rápidas y económicas
               </div>
@@ -106,15 +106,15 @@ const Hero: React.FC = () => {
               <div className="flex items-center gap-3">
                 <span className="text-3xl">🧪</span>
                 <div className="text-left">
-                  <p className="font-semibold text-blue-400">Try on Testnet</p>
-                  <p className="text-sm text-brand-gray">Test all features with free tokens on Base Sepolia</p>
+                  <p className="font-semibold text-blue-400">Prueba en Testnet</p>
+                  <p className="text-sm text-brand-gray">Prueba todas las funciones con tokens gratis en Base Sepolia</p>
                 </div>
               </div>
               <Link
                 to="/testnet"
                 className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg transition-all whitespace-nowrap"
               >
-                Launch Testnet
+                Ir a Testnet
               </Link>
             </div>
           </div>

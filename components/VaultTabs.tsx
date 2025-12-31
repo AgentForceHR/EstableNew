@@ -137,7 +137,7 @@ const VaultTabs: React.FC = () => {
                 <div className="text-3xl font-bold text-brand-green">{activeVault.apy}</div>
               </div>
               <div className="bg-brand-dark/50 p-4 rounded-xl">
-                <div className="text-sm text-brand-gray mb-1">Total Value Locked</div>
+                <div className="text-sm text-brand-gray mb-1">Valor Total Bloqueado</div>
                 <div className="text-3xl font-bold text-brand-light">{activeVault.tvl}</div>
               </div>
             </div>
@@ -148,7 +148,7 @@ const VaultTabs: React.FC = () => {
                 <span className="font-semibold">Base Network</span>
               </div>
               <div className="flex items-center justify-between text-sm mb-2">
-                <span className="text-brand-gray">Performance Fee</span>
+                <span className="text-brand-gray">Comisión de Rendimiento</span>
                 <span className="font-semibold">15%</span>
               </div>
               <div className="flex items-center justify-between text-sm">
