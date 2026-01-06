@@ -31,11 +31,11 @@ const FAQ: React.FC = () => {
   ];
 
   return (
-    <section id="faq" className="py-20 px-6 bg-brand-blue/10">
+    <section id="faq" className="py-20 px-6 bg-theme-secondary">
       <div className="container mx-auto max-w-4xl">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">Preguntas Frecuentes</h2>
-          <p className="text-brand-gray text-lg">
+          <h2 className="text-4xl font-bold mb-4 text-theme-primary">Preguntas Frecuentes</h2>
+          <p className="text-theme-tertiary text-lg">
             Encuentra respuestas a las preguntas más comunes
           </p>
         </div>
@@ -44,20 +44,20 @@ const FAQ: React.FC = () => {
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className="bg-brand-card rounded-xl border border-brand-gray/20 overflow-hidden hover:border-brand-green/50 transition-all"
+              className="bg-theme-card rounded-xl border border-theme-light overflow-hidden hover:border-accent-primary hover:shadow-theme-lg transition-all shadow-theme-md"
             >
               <button
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full px-8 py-6 text-left flex justify-between items-center"
+                className="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-theme-secondary/50 transition-colors"
               >
-                <span className="font-semibold text-lg">{faq.question}</span>
-                <span className="text-brand-green text-2xl">
+                <span className="font-semibold text-lg text-theme-primary">{faq.question}</span>
+                <span className="text-accent-primary text-2xl font-bold">
                   {openIndex === index ? '−' : '+'}
                 </span>
               </button>
 
               {openIndex === index && (
-                <div className="px-8 pb-6 text-brand-gray">
+                <div className="px-8 pb-6 text-theme-tertiary leading-relaxed border-t border-theme-light pt-4">
                   {faq.answer}
                 </div>
               )}

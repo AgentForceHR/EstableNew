@@ -25,11 +25,11 @@ const HowItWorks: React.FC = () => {
   ];
 
   return (
-    <section id="como-funciona" className="py-20 px-6 bg-brand-blue/10">
+    <section id="como-funciona" className="py-20 px-6 bg-theme-secondary">
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">¿Cómo Funciona?</h2>
-          <p className="text-brand-gray text-lg max-w-2xl mx-auto">
+          <h2 className="text-4xl font-bold mb-4 text-theme-primary">¿Cómo Funciona?</h2>
+          <p className="text-theme-tertiary text-lg max-w-2xl mx-auto">
             Cuatro pasos simples para comenzar a generar rendimientos estables
           </p>
         </div>
@@ -37,13 +37,13 @@ const HowItWorks: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {steps.map((step, index) => (
             <div key={index} className="relative">
-              <div className="bg-brand-card p-8 rounded-xl border border-brand-gray/20 h-full hover:border-brand-green/50 transition-all">
-                <div className="text-brand-green/30 text-5xl font-bold mb-4">{step.number}</div>
-                <h3 className="text-xl font-semibold mb-3">{step.title}</h3>
-                <p className="text-brand-gray">{step.description}</p>
+              <div className="bg-theme-card p-8 rounded-xl border border-theme-light h-full hover:border-accent-primary hover:shadow-theme-lg transition-all shadow-theme-md">
+                <div className="text-accent-primary/40 text-5xl font-bold mb-4">{step.number}</div>
+                <h3 className="text-xl font-semibold mb-3 text-theme-primary">{step.title}</h3>
+                <p className="text-theme-tertiary leading-relaxed">{step.description}</p>
               </div>
               {index < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-1/2 -right-4 w-8 h-0.5 bg-brand-green/30" />
+                <div className="hidden lg:block absolute top-1/2 -right-4 w-8 h-0.5 bg-accent-primary/30" />
               )}
             </div>
           ))}

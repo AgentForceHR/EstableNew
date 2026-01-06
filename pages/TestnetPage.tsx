@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 
 const TestnetPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-brand-dark font-sans">
+    <div className="min-h-screen bg-theme-primary font-sans">
       <Header />
       <main>
         <section className="py-20 px-6">
@@ -14,13 +14,13 @@ const TestnetPage: React.FC = () => {
             <div className="text-center mb-12">
               <Link
                 to="/"
-                className="inline-flex items-center gap-2 text-brand-gray hover:text-brand-light transition-colors mb-6"
+                className="inline-flex items-center gap-2 text-theme-tertiary hover:text-accent-primary transition-colors mb-6"
               >
                 <span>←</span>
                 <span>Volver al Inicio</span>
               </Link>
-              <h1 className="text-5xl font-bold mb-4">Base Sepolia Testnet</h1>
-              <p className="text-brand-gray text-lg max-w-2xl mx-auto">
+              <h1 className="text-5xl font-bold mb-4 text-theme-primary">Base Sepolia Testnet</h1>
+              <p className="text-theme-tertiary text-lg max-w-2xl mx-auto">
                 Prueba nuestros vaults en testnet con tokens de prueba gratuitos. Prueba toda la funcionalidad antes de usar mainnet.
               </p>
             </div>

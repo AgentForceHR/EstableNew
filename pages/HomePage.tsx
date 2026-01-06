@@ -9,7 +9,7 @@ import Footer from '../components/Footer';
 
 const HomePage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-brand-dark font-sans">
+    <div className="min-h-screen bg-theme-primary">
       <Header />
       <main>
         <Hero />
