@@ -19,8 +19,8 @@ const Header: React.FC = () => {
           <a href="#vaults" className="text-brand-gray hover:text-brand-light transition-colors">
             Vaults
           </a>
-          <a href="#referrals" className="text-brand-gray hover:text-brand-light transition-colors">
-            Referidos
+          <a href="/affiliates" className="text-brand-gray hover:text-brand-light transition-colors">
+            Affiliates
           </a>
           <a href="#faq" className="text-brand-gray hover:text-brand-light transition-colors">
             FAQ

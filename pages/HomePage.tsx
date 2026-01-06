@@ -2,7 +2,6 @@ import React from 'react';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
 import HowItWorks from '../components/HowItWorks';
-import ReferralSystem from '../components/ReferralSystem';
 import ProtocolDetails from '../components/ProtocolDetails';
 import InflationComparison from '../components/InflationComparison';
 import FAQ from '../components/FAQ';
@@ -15,7 +14,6 @@ const HomePage: React.FC = () => {
       <main>
         <Hero />
         <HowItWorks />
-        <ReferralSystem />
         <ProtocolDetails />
         <InflationComparison />
         <FAQ />

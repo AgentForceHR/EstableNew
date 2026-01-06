@@ -118,24 +118,6 @@ const Hero: React.FC = () => {
               </Link>
             </div>
           </div>
-
-          <div className="mt-6 bg-gradient-to-r from-brand-green/10 to-blue-500/10 border border-brand-green/20 p-6 rounded-xl">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <span className="text-3xl">🎁</span>
-                <div className="text-left">
-                  <p className="font-semibold">Programa de Referidos</p>
-                  <p className="text-sm text-brand-gray">Gana 5% de comisión por cada usuario que refiera</p>
-                </div>
-              </div>
-              <a
-                href="#referrals"
-                className="bg-brand-green hover:bg-brand-green/90 text-brand-dark font-semibold px-6 py-3 rounded-lg transition-all whitespace-nowrap"
-              >
-                Crear Código
-              </a>
-            </div>
-          </div>
         </div>
       </div>
     </section>

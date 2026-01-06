@@ -47,12 +47,12 @@ const ReferralSystem: React.FC = () => {
   };
 
   return (
-    <section id="referrals" className="py-20 px-6 bg-brand-blue/10">
+    <section className="py-20 px-6 bg-brand-blue/10">
       <div className="container mx-auto max-w-4xl">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4">Programa de Referidos</h2>
+          <h2 className="text-4xl font-bold mb-4">Genera tu Código de Affiliate</h2>
           <p className="text-brand-gray text-lg max-w-2xl mx-auto">
-            Gana 5% de comisión de por vida en todos los rendimientos generados por tus referidos
+            Conecta tu wallet y genera tu código único para empezar a ganar comisiones
           </p>
         </div>
 
