@@ -59,6 +59,20 @@ body {
   color: var(--text-primary);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (max-width: 768px) {
+  body {
+    overscroll-behavior-y: none;
+  }
+
+  #root {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
 }
 
 .bg-theme-primary {
@@ -133,5 +147,37 @@ body {
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@layer utilities {
+  .app-card {
+    @apply bg-theme-card rounded-2xl shadow-theme-lg border border-theme-light;
+  }
+
+  .app-button {
+    @apply rounded-xl font-semibold transition-all duration-200 active:scale-95;
+  }
+
+  .app-input {
+    @apply rounded-xl bg-theme-secondary border border-theme-light px-4 py-3 text-theme-primary placeholder:text-theme-tertiary focus:outline-none focus:ring-2 focus:ring-accent-primary focus:border-transparent transition-all;
+  }
+
+  .app-section {
+    @apply px-4 py-6 sm:px-6 sm:py-8;
+  }
+}
+
+@media (max-width: 1024px) {
+  button, a, input, select, textarea {
+    touch-action: manipulation;
+  }
+
+  * {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+
+  input, textarea, select {
+    font-size: 16px !important;
   }
 }

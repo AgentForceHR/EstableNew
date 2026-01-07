@@ -1,14 +1,18 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
   return (
     <footer className="bg-theme-card border-t border-theme-light py-8 sm:py-10 md:py-12 px-4 sm:px-6 shadow-theme-md">
       <div className="container mx-auto max-w-6xl">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
-          <div className="sm:col-span-2 md:col-span-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 sm:gap-8 mb-6 sm:mb-8">
+          <div className="sm:col-span-2 lg:col-span-1">
             <div className="flex items-center space-x-2 mb-3 sm:mb-4">
               <div className="w-8 h-8 bg-accent-primary rounded-lg flex items-center justify-center shadow-theme-md">
-                <span className="text-theme-primary font-bold text-lg">E</span>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clipRule="evenodd" />
+                </svg>
               </div>
               <span className="text-lg sm:text-xl font-bold text-theme-primary">Estable.app</span>
             </div>
@@ -18,21 +22,33 @@ const Footer: React.FC = () => {
           </div>
 
           <div>
-            <h3 className="font-semibold mb-3 sm:mb-4 text-theme-primary text-sm sm:text-base">Producto</h3>
+            <h3 className="font-semibold mb-3 sm:mb-4 text-theme-primary text-sm sm:text-base">Plataforma</h3>
             <ul className="space-y-2 text-theme-tertiary text-sm">
-              <li><a href="#vaults" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Vaults</a></li>
+              <li><Link to="/" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Inicio</Link></li>
+              <li><a href="#vaults" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Vaults de Ahorro</a></li>
               <li><a href="#como-funciona" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Cómo Funciona</a></li>
-              <li><a href="#" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Seguridad</a></li>
-              <li><a href="#" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Documentación</a></li>
+              <li><Link to="/testnet" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Testnet</Link></li>
+              <li><a href="#" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Estadísticas</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-semibold mb-3 sm:mb-4 text-theme-primary text-sm sm:text-base">Programa</h3>
+            <ul className="space-y-2 text-theme-tertiary text-sm">
+              <li><Link to="/affiliates" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Programa de Afiliados</Link></li>
+              <li><a href="#" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Referidos</a></li>
+              <li><a href="#" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Recompensas</a></li>
+              <li><a href="#" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Partners</a></li>
             </ul>
           </div>
 
           <div>
             <h3 className="font-semibold mb-3 sm:mb-4 text-theme-primary text-sm sm:text-base">Recursos</h3>
             <ul className="space-y-2 text-theme-tertiary text-sm">
-              <li><a href="#faq" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">FAQ</a></li>
+              <li><a href="#faq" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Preguntas Frecuentes</a></li>
+              <li><a href="#" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Documentación</a></li>
+              <li><a href="#" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Guía de Inicio</a></li>
               <li><a href="#" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Blog</a></li>
-              <li><a href="#" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Guías</a></li>
               <li><a href="#" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Soporte</a></li>
             </ul>
           </div>
@@ -40,9 +56,10 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="font-semibold mb-3 sm:mb-4 text-theme-primary text-sm sm:text-base">Legal</h3>
             <ul className="space-y-2 text-theme-tertiary text-sm">
-              <li><a href="#" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Términos de Uso</a></li>
-              <li><a href="#" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Privacidad</a></li>
-              <li><a href="#" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Disclaimer</a></li>
+              <li><a href="#" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Términos y Condiciones</a></li>
+              <li><a href="#" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Política de Privacidad</a></li>
+              <li><a href="#" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Aviso Legal</a></li>
+              <li><a href="#" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Política de Cookies</a></li>
             </ul>
           </div>
         </div>

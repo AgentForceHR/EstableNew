@@ -77,19 +77,19 @@ const Header: React.FC = () => {
         </div>
 
         {mobileMenuOpen && (
-          <div className="lg:hidden mt-4 pb-4 border-t border-theme-light pt-4 space-y-3">
+          <div className="lg:hidden mt-4 pb-4 border-t border-theme-light pt-4 space-y-3 bg-theme-primary rounded-lg shadow-theme-lg">
             {isHomePage ? (
               <>
                 <a
                   href="#como-funciona"
-                  className="block px-4 py-3 text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary rounded-lg transition-all text-base font-medium"
+                  className="block px-4 py-3 text-theme-primary hover:text-accent-primary hover:bg-theme-secondary rounded-lg transition-all text-base font-semibold"
                   onClick={closeMobileMenu}
                 >
                   Cómo Funciona
                 </a>
                 <a
                   href="#vaults"
-                  className="block px-4 py-3 text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary rounded-lg transition-all text-base font-medium"
+                  className="block px-4 py-3 text-theme-primary hover:text-accent-primary hover:bg-theme-secondary rounded-lg transition-all text-base font-semibold"
                   onClick={closeMobileMenu}
                 >
                   Vaults
@@ -98,7 +98,7 @@ const Header: React.FC = () => {
             ) : (
               <Link
                 to="/"
-                className="block px-4 py-3 text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary rounded-lg transition-all text-base font-medium"
+                className="block px-4 py-3 text-theme-primary hover:text-accent-primary hover:bg-theme-secondary rounded-lg transition-all text-base font-semibold"
                 onClick={closeMobileMenu}
               >
                 Inicio
@@ -106,7 +106,7 @@ const Header: React.FC = () => {
             )}
             <Link
               to="/affiliates"
-              className="block px-4 py-3 text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary rounded-lg transition-all text-base font-medium"
+              className="block px-4 py-3 text-theme-primary hover:text-accent-primary hover:bg-theme-secondary rounded-lg transition-all text-base font-semibold"
               onClick={closeMobileMenu}
             >
               Affiliates
@@ -114,18 +114,18 @@ const Header: React.FC = () => {
             {isHomePage && (
               <a
                 href="#faq"
-                className="block px-4 py-3 text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary rounded-lg transition-all text-base font-medium"
+                className="block px-4 py-3 text-theme-primary hover:text-accent-primary hover:bg-theme-secondary rounded-lg transition-all text-base font-semibold"
                 onClick={closeMobileMenu}
               >
                 FAQ
               </a>
             )}
 
-            <div className="pt-3 border-t border-theme-light space-y-3">
-              <div className="px-4">
+            <div className="pt-3 border-t border-theme-light space-y-3 bg-theme-card rounded-lg p-3">
+              <div className="px-2">
                 <WalletConnectButton />
               </div>
-              <div className="flex justify-center">
+              <div className="flex justify-center pb-2">
                 <ThemeToggle />
               </div>
             </div>
