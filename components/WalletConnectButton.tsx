@@ -37,7 +37,7 @@ const WalletConnectButton: React.FC = () => {
                 return (
                   <button
                     onClick={openConnectModal}
-                    className="bg-brand-green hover:bg-brand-green/90 text-brand-dark font-semibold px-6 py-2 rounded-lg transition-all"
+                    className="w-full sm:w-auto bg-accent-primary hover:bg-accent-hover text-white font-semibold px-4 sm:px-6 py-2.5 sm:py-2 rounded-lg transition-all text-sm sm:text-base shadow-theme-sm"
                   >
                     Conectar Wallet
                   </button>
@@ -48,7 +48,7 @@ const WalletConnectButton: React.FC = () => {
                 return (
                   <button
                     onClick={openChainModal}
-                    className="bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-2 rounded-lg transition-all"
+                    className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white font-semibold px-4 sm:px-6 py-2.5 sm:py-2 rounded-lg transition-all text-sm sm:text-base shadow-theme-sm"
                   >
                     Red Incorrecta
                   </button>
@@ -56,29 +56,31 @@ const WalletConnectButton: React.FC = () => {
               }
 
               return (
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
                   <button
                     onClick={openChainModal}
-                    className="bg-brand-card hover:bg-brand-gray/10 border border-brand-gray/20 text-brand-light font-semibold px-4 py-2 rounded-lg transition-all flex items-center gap-2"
+                    className="bg-theme-card hover:bg-theme-secondary border border-theme-light text-theme-primary font-semibold px-3 sm:px-4 py-2 rounded-lg transition-all flex items-center justify-center gap-2 text-sm shadow-theme-sm"
                   >
                     {chain.hasIcon && chain.iconUrl && (
                       <img
                         alt={chain.name ?? 'Chain icon'}
                         src={chain.iconUrl}
-                        className="w-4 h-4"
+                        className="w-4 h-4 flex-shrink-0"
                       />
                     )}
-                    {chain.name}
+                    <span className="truncate">{chain.name}</span>
                   </button>
 
                   <button
                     onClick={openAccountModal}
-                    className="bg-brand-green hover:bg-brand-green/90 text-brand-dark font-semibold px-4 py-2 rounded-lg transition-all"
+                    className="bg-accent-primary hover:bg-accent-hover text-white font-semibold px-3 sm:px-4 py-2 rounded-lg transition-all text-sm shadow-theme-sm truncate"
                   >
-                    {account.displayName}
-                    {account.displayBalance
-                      ? ` (${account.displayBalance})`
-                      : ''}
+                    <span className="block sm:inline">{account.displayName}</span>
+                    {account.displayBalance && (
+                      <span className="block sm:inline sm:ml-1 text-xs sm:text-sm opacity-90">
+                        ({account.displayBalance})
+                      </span>
+                    )}
                   </button>
                 </div>
               );

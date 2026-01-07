@@ -38,13 +38,13 @@ const RevenueDashboard: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="bg-brand-card p-8 rounded-xl border border-brand-gray/20">
+      <div className="bg-brand-card p-4 md:p-8 rounded-xl border border-brand-gray/20">
         <div className="animate-pulse">
-          <div className="h-8 bg-brand-gray/20 rounded w-1/3 mb-6"></div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="h-24 bg-brand-gray/20 rounded"></div>
-            <div className="h-24 bg-brand-gray/20 rounded"></div>
-            <div className="h-24 bg-brand-gray/20 rounded"></div>
+          <div className="h-6 md:h-8 bg-brand-gray/20 rounded w-1/2 md:w-1/3 mb-4 md:mb-6"></div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+            <div className="h-20 md:h-24 bg-brand-gray/20 rounded"></div>
+            <div className="h-20 md:h-24 bg-brand-gray/20 rounded"></div>
+            <div className="h-20 md:h-24 bg-brand-gray/20 rounded"></div>
           </div>
         </div>
       </div>
@@ -53,8 +53,8 @@ const RevenueDashboard: React.FC = () => {
 
   if (!stats) {
     return (
-      <div className="bg-brand-card p-8 rounded-xl border border-brand-gray/20">
-        <p className="text-brand-gray">No revenue data available</p>
+      <div className="bg-brand-card p-4 md:p-8 rounded-xl border border-brand-gray/20">
+        <p className="text-brand-gray text-sm md:text-base">No revenue data available</p>
       </div>
     );
   }
@@ -91,16 +91,16 @@ const RevenueDashboard: React.FC = () => {
   ];
 
   return (
-    <section className="py-12 px-6">
+    <section className="py-8 md:py-12 px-4 md:px-6">
       <div className="container mx-auto max-w-6xl">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-3xl font-bold">Revenue Dashboard</h2>
-          <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 md:mb-8 gap-4">
+          <h2 className="text-2xl md:text-3xl font-bold">Revenue Dashboard</h2>
+          <div className="flex gap-2 w-full sm:w-auto">
             {['7d', '30d', '90d'].map((tf) => (
               <button
                 key={tf}
                 onClick={() => setTimeframe(tf)}
-                className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+                className={`flex-1 sm:flex-none px-3 md:px-4 py-2 min-h-[44px] rounded-lg font-semibold transition-all text-sm md:text-base ${
                   timeframe === tf
                     ? 'bg-brand-green text-brand-dark'
                     : 'bg-brand-card text-brand-gray hover:text-brand-light'
@@ -112,32 +112,32 @@ const RevenueDashboard: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-brand-card p-8 rounded-xl border border-brand-gray/20 mb-8">
+        <div className="bg-brand-card p-4 md:p-8 rounded-xl border border-brand-gray/20 mb-6 md:mb-8">
           <div className="text-center">
-            <p className="text-brand-gray text-sm mb-2">Total Revenue ({timeframe})</p>
-            <p className="text-5xl font-bold text-brand-green mb-2">
+            <p className="text-brand-gray text-xs md:text-sm mb-2">Total Revenue ({timeframe})</p>
+            <p className="text-3xl md:text-5xl font-bold text-brand-green mb-2">
               {formatCurrency(stats.total)}
             </p>
-            <p className="text-brand-gray text-sm">
+            <p className="text-brand-gray text-xs md:text-sm">
               Projected Monthly: {formatCurrency(projectedMonthly(stats.total))}
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
           {revenueItems.map((item, index) => (
             <div
               key={index}
-              className="bg-brand-card p-6 rounded-xl border border-brand-gray/20 hover:border-brand-green/50 transition-all"
+              className="bg-brand-card p-4 md:p-6 rounded-xl border border-brand-gray/20 hover:border-brand-green/50 transition-all"
             >
-              <div className="flex items-start justify-between mb-4">
-                <span className="text-3xl">{item.icon}</span>
-                <span className={`text-2xl font-bold ${item.color}`}>
+              <div className="flex items-start justify-between mb-3 md:mb-4">
+                <span className="text-2xl md:text-3xl">{item.icon}</span>
+                <span className={`text-lg md:text-2xl font-bold ${item.color}`}>
                   {formatCurrency(item.amount)}
                 </span>
               </div>
-              <h3 className="font-semibold mb-2">{item.title}</h3>
-              <p className="text-brand-gray text-sm">{item.description}</p>
+              <h3 className="font-semibold mb-2 text-sm md:text-base">{item.title}</h3>
+              <p className="text-brand-gray text-xs md:text-sm">{item.description}</p>
               <div className="mt-3 pt-3 border-t border-brand-gray/20">
                 <p className="text-xs text-brand-gray">
                   Monthly: {formatCurrency(projectedMonthly(item.amount))}
@@ -147,9 +147,9 @@ const RevenueDashboard: React.FC = () => {
           ))}
         </div>
 
-        <div className="bg-brand-card p-8 rounded-xl border border-brand-gray/20">
-          <h3 className="text-xl font-bold mb-4">Revenue Breakdown</h3>
-          <div className="space-y-4">
+        <div className="bg-brand-card p-4 md:p-8 rounded-xl border border-brand-gray/20 overflow-x-auto">
+          <h3 className="text-lg md:text-xl font-bold mb-4">Revenue Breakdown</h3>
+          <div className="space-y-4 min-w-[300px]">
             {revenueItems.map((item, index) => {
               const percentage = stats.total > 0 ? (item.amount / stats.total) * 100 : 0;
               return (
@@ -182,10 +182,10 @@ const RevenueDashboard: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-brand-green/10 border border-brand-green/20 p-6 rounded-xl">
-            <h4 className="font-semibold text-brand-green mb-2">💡 Revenue Optimization Tips</h4>
-            <ul className="space-y-2 text-sm text-brand-gray">
+        <div className="mt-6 md:mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+          <div className="bg-brand-green/10 border border-brand-green/20 p-4 md:p-6 rounded-xl">
+            <h4 className="font-semibold text-brand-green mb-2 text-sm md:text-base">💡 Revenue Optimization Tips</h4>
+            <ul className="space-y-2 text-xs md:text-sm text-brand-gray">
               <li>• Share referral links in LATAM crypto groups</li>
               <li>• Enable deposit/withdrawal fees after $500k TVL</li>
               <li>• Set up MEV capture bot for rate change arbitrage</li>
@@ -193,9 +193,9 @@ const RevenueDashboard: React.FC = () => {
             </ul>
           </div>
 
-          <div className="bg-blue-500/10 border border-blue-500/20 p-6 rounded-xl">
-            <h4 className="font-semibold text-blue-400 mb-2">📊 Projected Annual ($10M TVL)</h4>
-            <ul className="space-y-2 text-sm text-brand-gray">
+          <div className="bg-blue-500/10 border border-blue-500/20 p-4 md:p-6 rounded-xl">
+            <h4 className="font-semibold text-blue-400 mb-2 text-sm md:text-base">📊 Projected Annual ($10M TVL)</h4>
+            <ul className="space-y-2 text-xs md:text-sm text-brand-gray">
               <li>• Performance fees: $210k/year</li>
               <li>• Referral network: $105k/year (5% to partners)</li>
               <li>• Transaction fees: $36k/year</li>

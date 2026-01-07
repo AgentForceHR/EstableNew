@@ -270,11 +270,11 @@ const Vaults: React.FC = () => {
   };
 
   return (
-    <section id="vaults" className="py-20 px-6">
+    <section id="vaults" className="py-12 md:py-20 px-4 md:px-6">
       <div className="container mx-auto max-w-6xl">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">Vaults Disponibles</h2>
-          <p className="text-brand-gray text-lg max-w-2xl mx-auto">
+        <div className="text-center mb-8 md:mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold mb-3 md:mb-4">Vaults Disponibles</h2>
+          <p className="text-brand-gray text-sm md:text-lg max-w-2xl mx-auto px-2">
             Vaults optimizados usando Morpho Blue y Spark.fi en Base Network
           </p>
           <div className="mt-4 inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 px-4 py-2 rounded-lg">
@@ -286,24 +286,24 @@ const Vaults: React.FC = () => {
         <FaucetButtons />
 
         {address && calculateTotalValue() > 0 && (
-          <div className="bg-gradient-to-r from-brand-green/10 to-blue-500/10 border border-brand-green/20 rounded-xl p-8 mb-8">
-            <h3 className="text-2xl font-bold mb-6">Tu Portafolio</h3>
+          <div className="bg-gradient-to-r from-brand-green/10 to-blue-500/10 border border-brand-green/20 rounded-xl p-4 md:p-8 mb-6 md:mb-8">
+            <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6">Tu Portafolio</h3>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
               <div>
                 <div className="text-sm text-brand-gray mb-2">Total Depositado</div>
-                <div className="text-3xl font-bold">${calculateTotalDeposited().toFixed(2)}</div>
+                <div className="text-2xl md:text-3xl font-bold">${calculateTotalDeposited().toFixed(2)}</div>
               </div>
               <div>
                 <div className="text-sm text-brand-gray mb-2">Valor Actual</div>
-                <div className="text-3xl font-bold text-brand-green">${calculateTotalValue().toFixed(2)}</div>
+                <div className="text-2xl md:text-3xl font-bold text-brand-green">${calculateTotalValue().toFixed(2)}</div>
               </div>
               <div>
                 <div className="text-sm text-brand-gray mb-2">Rendimiento Total Ganado</div>
-                <div className="text-3xl font-bold text-brand-green">
+                <div className="text-2xl md:text-3xl font-bold text-brand-green">
                   ${calculateTotalYield().toFixed(4)}
                   {calculateTotalYield() > 0 && calculateTotalDeposited() > 0 && (
-                    <span className="text-sm ml-2">
+                    <span className="text-xs md:text-sm ml-2">
                       (+{((calculateTotalYield() / calculateTotalDeposited()) * 100).toFixed(2)}%)
                     </span>
                   )}
@@ -311,7 +311,7 @@ const Vaults: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-brand-dark/50 rounded-lg p-6">
+            <div className="bg-brand-dark/50 rounded-lg p-4 md:p-6">
               <div className="flex justify-between items-center mb-3">
                 <span className="text-sm text-brand-gray">Progreso APY (Meta Anual 15%)</span>
                 <span className="text-sm font-semibold text-brand-green">{calculateProgress().toFixed(2)}%</span>
@@ -322,7 +322,7 @@ const Vaults: React.FC = () => {
                   style={{ width: `${calculateProgress()}%` }}
                 ></div>
               </div>
-              <div className="flex justify-between items-center mt-3">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-3 gap-2 sm:gap-0">
                 <span className="text-xs text-brand-gray">
                   {getDaysElapsed().toFixed(1)} días ganando
                 </span>
@@ -334,7 +334,7 @@ const Vaults: React.FC = () => {
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-8 md:mb-12">
           {vaults.map((vault) => {
             const hasDeposits = address && userBalances[vault.id] && parseFloat(userBalances[vault.id].depositedAmount) > 0;
             const vaultYield = hasDeposits ? parseFloat(userBalances[vault.id].yieldEarned) : 0;
@@ -344,14 +344,14 @@ const Vaults: React.FC = () => {
             return (
               <div
                 key={vault.id}
-                className="bg-brand-card rounded-xl border border-brand-gray/20 p-8 hover:border-brand-green/50 transition-all"
+                className="bg-brand-card rounded-xl border border-brand-gray/20 p-4 md:p-8 hover:border-brand-green/50 transition-all"
               >
-                <div className="flex justify-between items-start mb-6">
+                <div className="flex justify-between items-start mb-4 md:mb-6">
                   <div>
-                    <h3 className="text-2xl font-bold mb-1">{vault.name}</h3>
+                    <h3 className="text-xl md:text-2xl font-bold mb-1">{vault.name}</h3>
                     <span className="text-xs text-brand-gray">{vault.assetSymbol}</span>
                   </div>
-                  <span className="px-3 py-1 rounded-full text-sm bg-brand-green/20 text-brand-green">
+                  <span className="px-2 md:px-3 py-1 rounded-full text-xs md:text-sm bg-brand-green/20 text-brand-green whitespace-nowrap">
                     15% APY
                   </span>
                 </div>
@@ -421,7 +421,7 @@ const Vaults: React.FC = () => {
                       setSelectedVault(vault);
                       setMode('deposit');
                     }}
-                    className="w-full bg-brand-green hover:bg-brand-green/90 text-brand-dark font-semibold py-3 rounded-lg transition-all"
+                    className="w-full bg-brand-green hover:bg-brand-green/90 text-brand-dark font-semibold py-3 md:py-3 min-h-[44px] rounded-lg transition-all text-sm md:text-base"
                   >
                     Depositar
                   </button>
@@ -430,7 +430,7 @@ const Vaults: React.FC = () => {
                       setSelectedVault(vault);
                       setMode('withdraw');
                     }}
-                    className="w-full bg-brand-gray/20 hover:bg-brand-gray/30 text-brand-light font-semibold py-3 rounded-lg transition-all"
+                    className="w-full bg-brand-gray/20 hover:bg-brand-gray/30 text-brand-light font-semibold py-3 md:py-3 min-h-[44px] rounded-lg transition-all text-sm md:text-base"
                   >
                     Retirar
                   </button>
@@ -440,11 +440,11 @@ const Vaults: React.FC = () => {
           })}
         </div>
 
-        <div className="bg-brand-green/10 border border-brand-green/20 p-6 rounded-xl">
-          <div className="flex items-start gap-4">
-            <span className="text-3xl">💡</span>
+        <div className="bg-brand-green/10 border border-brand-green/20 p-4 md:p-6 rounded-xl">
+          <div className="flex items-start gap-3 md:gap-4">
+            <span className="text-2xl md:text-3xl">💡</span>
             <div>
-              <h4 className="font-semibold text-brand-green mb-2">Rebalanceo Automático</h4>
+              <h4 className="font-semibold text-brand-green mb-2 text-sm md:text-base">Rebalanceo Automático</h4>
               <p className="text-brand-gray text-sm">
                 Los fondos se rebalancean automáticamente cada semana: 40% Spark.fi USDC, 30% Steakhouse USDT, 30% sDAI para maximizar rendimientos con Morpho Blue. Todos los vaults generan 15% APY.
               </p>
@@ -454,48 +454,48 @@ const Vaults: React.FC = () => {
       </div>
 
       {selectedVault && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-6">
-          <div className="bg-brand-card rounded-xl border border-brand-gray/20 p-8 max-w-md w-full">
-            <div className="flex justify-between items-start mb-6">
-              <h3 className="text-2xl font-bold">{selectedVault.name}</h3>
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 md:p-6">
+          <div className="bg-brand-card rounded-xl border border-brand-gray/20 p-4 md:p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-start mb-4 md:mb-6">
+              <h3 className="text-xl md:text-2xl font-bold">{selectedVault.name}</h3>
               <button
                 onClick={() => {
                   setSelectedVault(null);
                   setDepositAmount('');
                   setWithdrawShares('');
                 }}
-                className="text-brand-gray hover:text-brand-light"
+                className="text-brand-gray hover:text-brand-light text-2xl min-w-[44px] min-h-[44px] flex items-center justify-center -mr-2 -mt-2"
               >
                 ✕
               </button>
             </div>
 
             {!isConnected ? (
-              <div className="text-center py-8">
-                <p className="text-brand-gray mb-6">
+              <div className="text-center py-6 md:py-8">
+                <p className="text-brand-gray mb-6 text-sm md:text-base">
                   Conecta tu wallet para continuar
                 </p>
                 <button
                   onClick={openConnectModal}
-                  className="bg-brand-green hover:bg-brand-green/90 text-brand-dark font-semibold px-8 py-3 rounded-lg transition-all"
+                  className="bg-brand-green hover:bg-brand-green/90 text-brand-dark font-semibold px-6 md:px-8 py-3 min-h-[44px] rounded-lg transition-all text-sm md:text-base"
                 >
                   Conectar Wallet
                 </button>
               </div>
             ) : (
               <div>
-                <div className="mb-6">
+                <div className="mb-4 md:mb-6">
                   <label className="block text-sm text-brand-gray mb-2">
                     Wallet Conectada
                   </label>
-                  <div className="bg-brand-dark px-4 py-2 rounded-lg text-sm">
+                  <div className="bg-brand-dark px-4 py-3 min-h-[44px] rounded-lg text-sm break-all">
                     {address?.slice(0, 6)}...{address?.slice(-4)}
                   </div>
                 </div>
 
                 {mode === 'deposit' ? (
                   <>
-                    <div className="mb-6">
+                    <div className="mb-4 md:mb-6">
                       <label className="block text-sm text-brand-gray mb-2">
                         Cantidad a Depositar ({selectedVault.assetSymbol})
                       </label>
@@ -504,7 +504,7 @@ const Vaults: React.FC = () => {
                         value={depositAmount}
                         onChange={(e) => setDepositAmount(e.target.value)}
                         placeholder="0.0"
-                        className="w-full bg-brand-dark border border-brand-gray/20 rounded-lg px-4 py-3 text-brand-light focus:border-brand-green focus:outline-none"
+                        className="w-full bg-brand-dark border border-brand-gray/20 rounded-lg px-4 py-3 min-h-[44px] text-brand-light text-sm md:text-base focus:border-brand-green focus:outline-none"
                       />
                       {userBalances[selectedVault.id] && (
                         <p className="text-xs text-brand-gray mt-2">
@@ -513,9 +513,9 @@ const Vaults: React.FC = () => {
                       )}
                     </div>
 
-                    <div className="mb-6 bg-brand-green/10 border border-brand-green/20 rounded-lg p-4">
+                    <div className="mb-4 md:mb-6 bg-brand-green/10 border border-brand-green/20 rounded-lg p-4">
                       <div className="text-sm text-brand-gray mb-1">Rendimiento Anual Esperado</div>
-                      <div className="text-lg font-bold text-brand-green">
+                      <div className="text-base md:text-lg font-bold text-brand-green">
                         {depositAmount && parseFloat(depositAmount) > 0
                           ? `+${(parseFloat(depositAmount) * APY).toFixed(2)} ${selectedVault.assetSymbol}`
                           : '0.00'} (15% APY)
@@ -525,14 +525,14 @@ const Vaults: React.FC = () => {
                     <button
                       onClick={handleDeposit}
                       disabled={!depositAmount || parseFloat(depositAmount) <= 0 || processing}
-                      className="w-full bg-brand-green hover:bg-brand-green/90 disabled:bg-brand-gray/20 disabled:cursor-not-allowed text-brand-dark font-semibold py-3 rounded-lg transition-all"
+                      className="w-full bg-brand-green hover:bg-brand-green/90 disabled:bg-brand-gray/20 disabled:cursor-not-allowed text-brand-dark font-semibold py-3 min-h-[44px] rounded-lg transition-all text-sm md:text-base"
                     >
                       {processing ? 'Procesando...' : `Depositar ${depositAmount || ''}`}
                     </button>
                   </>
                 ) : (
                   <>
-                    <div className="mb-6">
+                    <div className="mb-4 md:mb-6">
                       <label className="block text-sm text-brand-gray mb-2">
                         Shares a Retirar
                       </label>
@@ -541,7 +541,7 @@ const Vaults: React.FC = () => {
                         value={withdrawShares}
                         onChange={(e) => setWithdrawShares(e.target.value)}
                         placeholder="0.0"
-                        className="w-full bg-brand-dark border border-brand-gray/20 rounded-lg px-4 py-3 text-brand-light focus:border-brand-green focus:outline-none"
+                        className="w-full bg-brand-dark border border-brand-gray/20 rounded-lg px-4 py-3 min-h-[44px] text-brand-light text-sm md:text-base focus:border-brand-green focus:outline-none"
                       />
                       {userBalances[selectedVault.id] && (
                         <p className="text-xs text-brand-gray mt-2">
@@ -553,7 +553,7 @@ const Vaults: React.FC = () => {
                     <button
                       onClick={handleWithdraw}
                       disabled={!withdrawShares || parseFloat(withdrawShares) <= 0 || processing}
-                      className="w-full bg-brand-green hover:bg-brand-green/90 disabled:bg-brand-gray/20 disabled:cursor-not-allowed text-brand-dark font-semibold py-3 rounded-lg transition-all"
+                      className="w-full bg-brand-green hover:bg-brand-green/90 disabled:bg-brand-gray/20 disabled:cursor-not-allowed text-brand-dark font-semibold py-3 min-h-[44px] rounded-lg transition-all text-sm md:text-base"
                     >
                       {processing ? 'Procesando...' : `Retirar ${withdrawShares || ''}`}
                     </button>

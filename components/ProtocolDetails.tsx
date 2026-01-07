@@ -25,36 +25,36 @@ const ProtocolDetails: React.FC = () => {
   ];
 
   return (
-    <section className="py-20 px-6 bg-theme-secondary">
+    <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-theme-secondary">
       <div className="container mx-auto max-w-6xl">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4 text-theme-primary">Seguridad y Confianza</h2>
-          <p className="text-theme-tertiary text-lg max-w-2xl mx-auto">
+        <div className="text-center mb-10 sm:mb-12 md:mb-16">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-theme-primary">Seguridad y Confianza</h2>
+          <p className="text-theme-tertiary text-sm sm:text-base md:text-lg max-w-2xl mx-auto px-2">
             Tu seguridad es nuestra prioridad número uno
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
           {features.map((feature, index) => (
-            <div key={index} className="bg-theme-card p-8 rounded-xl border border-theme-light hover:border-accent-primary hover:shadow-theme-lg transition-all shadow-theme-md">
-              <div className="text-4xl mb-4">{feature.icon}</div>
-              <h3 className="text-xl font-semibold mb-3 text-theme-primary">{feature.title}</h3>
-              <p className="text-theme-tertiary leading-relaxed">{feature.description}</p>
+            <div key={index} className="bg-theme-card p-6 sm:p-8 rounded-xl border border-theme-light hover:border-accent-primary hover:shadow-theme-lg transition-all shadow-theme-md">
+              <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">{feature.icon}</div>
+              <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-theme-primary">{feature.title}</h3>
+              <p className="text-sm sm:text-base text-theme-tertiary leading-relaxed">{feature.description}</p>
             </div>
           ))}
         </div>
 
-        <div className="mt-16 bg-theme-card p-8 rounded-xl border border-theme-light text-center shadow-theme-lg">
-          <h3 className="text-2xl font-bold mb-4 text-theme-primary">Respaldado por DeFi</h3>
-          <p className="text-theme-tertiary mb-6 max-w-3xl mx-auto leading-relaxed">
+        <div className="mt-10 sm:mt-12 md:mt-16 bg-theme-card p-6 sm:p-8 rounded-xl border border-theme-light text-center shadow-theme-lg">
+          <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-theme-primary">Respaldado por DeFi</h3>
+          <p className="text-sm sm:text-base text-theme-tertiary mb-6 max-w-3xl mx-auto leading-relaxed px-2">
             Nuestros vaults utilizan los protocolos DeFi más establecidos y seguros del ecosistema: Aave, Compound, y Curve.
             Más de $100B en TVL combinado respaldan estas plataformas.
           </p>
-          <div className="flex flex-wrap justify-center gap-6">
-            <span className="px-6 py-3 bg-theme-secondary text-theme-secondary rounded-lg border border-theme-light shadow-theme-md font-medium">Aave</span>
-            <span className="px-6 py-3 bg-theme-secondary text-theme-secondary rounded-lg border border-theme-light shadow-theme-md font-medium">Compound</span>
-            <span className="px-6 py-3 bg-theme-secondary text-theme-secondary rounded-lg border border-theme-light shadow-theme-md font-medium">Curve</span>
-            <span className="px-6 py-3 bg-theme-secondary text-theme-secondary rounded-lg border border-theme-light shadow-theme-md font-medium">Yearn</span>
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6">
+            <span className="px-4 sm:px-6 py-2 sm:py-3 bg-theme-secondary text-theme-secondary rounded-lg border border-theme-light shadow-theme-md font-medium text-sm sm:text-base min-h-[44px] flex items-center">Aave</span>
+            <span className="px-4 sm:px-6 py-2 sm:py-3 bg-theme-secondary text-theme-secondary rounded-lg border border-theme-light shadow-theme-md font-medium text-sm sm:text-base min-h-[44px] flex items-center">Compound</span>
+            <span className="px-4 sm:px-6 py-2 sm:py-3 bg-theme-secondary text-theme-secondary rounded-lg border border-theme-light shadow-theme-md font-medium text-sm sm:text-base min-h-[44px] flex items-center">Curve</span>
+            <span className="px-4 sm:px-6 py-2 sm:py-3 bg-theme-secondary text-theme-secondary rounded-lg border border-theme-light shadow-theme-md font-medium text-sm sm:text-base min-h-[44px] flex items-center">Yearn</span>
           </div>
         </div>
       </div>

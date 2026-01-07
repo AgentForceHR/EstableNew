@@ -31,16 +31,16 @@ const FAQ: React.FC = () => {
   ];
 
   return (
-    <section id="faq" className="py-20 px-6 bg-theme-secondary">
+    <section id="faq" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-theme-secondary">
       <div className="container mx-auto max-w-4xl">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4 text-theme-primary">Preguntas Frecuentes</h2>
-          <p className="text-theme-tertiary text-lg">
+        <div className="text-center mb-10 sm:mb-12 md:mb-16">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-theme-primary">Preguntas Frecuentes</h2>
+          <p className="text-theme-tertiary text-sm sm:text-base md:text-lg px-2">
             Encuentra respuestas a las preguntas más comunes
           </p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {faqs.map((faq, index) => (
             <div
               key={index}
@@ -48,16 +48,16 @@ const FAQ: React.FC = () => {
             >
               <button
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-theme-secondary/50 transition-colors"
+                className="w-full px-4 sm:px-6 md:px-8 py-4 sm:py-5 md:py-6 text-left flex justify-between items-center hover:bg-theme-secondary/50 transition-colors min-h-[44px]"
               >
-                <span className="font-semibold text-lg text-theme-primary">{faq.question}</span>
-                <span className="text-accent-primary text-2xl font-bold">
+                <span className="font-semibold text-sm sm:text-base md:text-lg text-theme-primary pr-4">{faq.question}</span>
+                <span className="text-accent-primary text-xl sm:text-2xl font-bold flex-shrink-0">
                   {openIndex === index ? '−' : '+'}
                 </span>
               </button>
 
               {openIndex === index && (
-                <div className="px-8 pb-6 text-theme-tertiary leading-relaxed border-t border-theme-light pt-4">
+                <div className="px-4 sm:px-6 md:px-8 pb-4 sm:pb-5 md:pb-6 text-theme-tertiary leading-relaxed border-t border-theme-light pt-3 sm:pt-4 text-sm sm:text-base">
                   {faq.answer}
                 </div>
               )}
