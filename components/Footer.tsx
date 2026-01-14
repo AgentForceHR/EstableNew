@@ -28,7 +28,7 @@ const Footer: React.FC = () => {
               <li><a href="#vaults" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Vaults de Ahorro</a></li>
               <li><a href="#como-funciona" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Cómo Funciona</a></li>
               <li><Link to="/testnet" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Testnet</Link></li>
-              <li><a href="#" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Estadísticas</a></li>
+              <li><Link to="/points" className="hover:text-accent-primary transition-colors inline-block min-h-[44px] flex items-center">Sistema de Puntos</Link></li>
             </ul>
           </div>
 

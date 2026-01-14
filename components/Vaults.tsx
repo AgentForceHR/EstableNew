@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useAccount } from 'wagmi';
+import { useAccount, useChainId } from 'wagmi';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { getVaults, approveToken, deposit, withdraw, getTokenBalance, getVaultBalance } from '../lib/contracts';
+import { handleVaultTransaction } from '../lib/points';
 import { ethers } from 'ethers';
 import FaucetButtons from './FaucetButtons';
 
@@ -31,6 +32,7 @@ const APY = 0.15;
 
 const Vaults: React.FC = () => {
   const { address, isConnected } = useAccount();
+  const chainId = useChainId();
   const { openConnectModal } = useConnectModal();
 
   const [vaults, setVaults] = useState<VaultData[]>([]);
@@ -153,7 +155,7 @@ const Vaults: React.FC = () => {
         selectedVault.decimals
       );
 
-      await deposit(
+      const tx = await deposit(
         selectedVault.vaultAddress,
         selectedVault.assetAddress,
         depositAmount,
@@ -167,7 +169,24 @@ const Vaults: React.FC = () => {
       });
       saveDepositRecords(selectedVault.id, deposits);
 
-      alert('¡Depósito exitoso!');
+      if (tx && tx.hash && address) {
+        const pointsResult = await handleVaultTransaction(
+          address,
+          chainId,
+          selectedVault.name,
+          'deposit',
+          tx.hash
+        );
+
+        if (pointsResult.success && pointsResult.pointsEarned > 0) {
+          alert(`¡Depósito exitoso! 🎉 Ganaste ${pointsResult.pointsEarned} puntos`);
+        } else {
+          alert('¡Depósito exitoso!');
+        }
+      } else {
+        alert('¡Depósito exitoso!');
+      }
+
       setDepositAmount('');
       setSelectedVault(null);
       await loadBalances();
@@ -194,7 +213,7 @@ const Vaults: React.FC = () => {
     setProcessing(true);
 
     try {
-      await withdraw(selectedVault.vaultAddress, withdrawShares);
+      const tx = await withdraw(selectedVault.vaultAddress, withdrawShares);
 
       const deposits = getDepositRecords(selectedVault.id);
       const totalShares = parseFloat(userBalances[selectedVault.id]?.shares || '0');
@@ -207,7 +226,24 @@ const Vaults: React.FC = () => {
 
       saveDepositRecords(selectedVault.id, newDeposits);
 
-      alert('¡Retiro exitoso!');
+      if (tx && tx.hash && address) {
+        const pointsResult = await handleVaultTransaction(
+          address,
+          chainId,
+          selectedVault.name,
+          'withdraw',
+          tx.hash
+        );
+
+        if (pointsResult.success && pointsResult.pointsEarned > 0) {
+          alert(`¡Retiro exitoso! 🎉 Ganaste ${pointsResult.pointsEarned} puntos`);
+        } else {
+          alert('¡Retiro exitoso!');
+        }
+      } else {
+        alert('¡Retiro exitoso!');
+      }
+
       setWithdrawShares('');
       setSelectedVault(null);
       await loadBalances();

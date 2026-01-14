@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useChainId } from 'wagmi';
 import WalletConnectButton from './WalletConnectButton';
 import ThemeToggle from './ThemeToggle';
 
 const Header: React.FC = () => {
   const location = useLocation();
+  const chainId = useChainId();
   const isHomePage = location.pathname === '/';
+  const isTestnet = chainId === 84532;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
@@ -43,6 +46,11 @@ const Header: React.FC = () => {
             <Link to="/affiliates" className="px-4 py-2 text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary rounded-lg transition-all text-sm font-medium">
               Affiliates
             </Link>
+            {isTestnet && (
+              <Link to="/points" className="px-4 py-2 text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary rounded-lg transition-all text-sm font-medium flex items-center gap-1">
+                <span>⭐</span> Puntos
+              </Link>
+            )}
             {isHomePage && (
               <a href="#faq" className="px-4 py-2 text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary rounded-lg transition-all text-sm font-medium">
                 FAQ
@@ -111,6 +119,15 @@ const Header: React.FC = () => {
             >
               Affiliates
             </Link>
+            {isTestnet && (
+              <Link
+                to="/points"
+                className="block px-4 py-3 text-theme-primary hover:text-accent-primary hover:bg-theme-secondary rounded-lg transition-all text-base font-semibold flex items-center gap-2"
+                onClick={closeMobileMenu}
+              >
+                <span>⭐</span> Puntos
+              </Link>
+            )}
             {isHomePage && (
               <a
                 href="#faq"
