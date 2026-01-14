@@ -46,11 +46,9 @@ const Header: React.FC = () => {
             <Link to="/affiliates" className="px-4 py-2 text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary rounded-lg transition-all text-sm font-medium">
               Affiliates
             </Link>
-            {isTestnet && (
-              <Link to="/points" className="px-4 py-2 text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary rounded-lg transition-all text-sm font-medium flex items-center gap-1">
-                <span>⭐</span> Puntos
-              </Link>
-            )}
+            <Link to="/points" className="px-4 py-2 text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary rounded-lg transition-all text-sm font-medium flex items-center gap-1">
+              <span>⭐</span> Puntos
+            </Link>
             {isHomePage && (
               <a href="#faq" className="px-4 py-2 text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary rounded-lg transition-all text-sm font-medium">
                 FAQ
@@ -119,15 +117,13 @@ const Header: React.FC = () => {
             >
               Affiliates
             </Link>
-            {isTestnet && (
-              <Link
-                to="/points"
-                className="block px-4 py-3 text-theme-primary hover:text-accent-primary hover:bg-theme-secondary rounded-lg transition-all text-base font-semibold flex items-center gap-2"
-                onClick={closeMobileMenu}
-              >
-                <span>⭐</span> Puntos
-              </Link>
-            )}
+            <Link
+              to="/points"
+              className="block px-4 py-3 text-theme-primary hover:text-accent-primary hover:bg-theme-secondary rounded-lg transition-all text-base font-semibold flex items-center gap-2"
+              onClick={closeMobileMenu}
+            >
+              <span>⭐</span> Puntos
+            </Link>
             {isHomePage && (
               <a
                 href="#faq"
