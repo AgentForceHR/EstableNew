@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import Vaults from '../components/Vaults';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import FaucetButtons from '../components/FaucetButtons';
+import ETHFaucet from '../components/ETHFaucet';
 
 const TestnetPage: React.FC = () => {
   return (
@@ -23,6 +25,11 @@ const TestnetPage: React.FC = () => {
               <p className="text-theme-tertiary text-lg max-w-2xl mx-auto">
                 Prueba nuestros vaults en testnet con tokens de prueba gratuitos. Prueba toda la funcionalidad antes de usar mainnet.
               </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+              <ETHFaucet />
+              <FaucetButtons />
             </div>
           </div>
         </section>
