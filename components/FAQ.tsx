@@ -5,8 +5,8 @@ const FAQ: React.FC = () => {
 
   const faqs = [
     {
-      question: '¿Qué es Estable.app?',
-      answer: 'Estable.app es una plataforma que te permite generar rendimientos estables en dólares digitales (USDC, USDT) mediante protocolos DeFi seguros y auditados.'
+      question: '¿Qué es Estable.lat?',
+      answer: 'Estable.lat es una plataforma que te permite generar rendimientos estables en dólares digitales (USDC, USDT) mediante protocolos DeFi seguros y auditados.'
     },
     {
       question: '¿Es seguro depositar mi dinero?',
@@ -22,7 +22,7 @@ const FAQ: React.FC = () => {
     },
     {
       question: '¿Necesito conocimientos técnicos?',
-      answer: 'No. Hemos diseñado Estable.app para que sea simple y fácil de usar. Solo necesitas una wallet de criptomonedas como MetaMask.'
+      answer: 'No. Hemos diseñado Estable.lat para que sea simple y fácil de usar. Solo necesitas una wallet de criptomonedas como MetaMask.'
     },
     {
       question: '¿Cuál es el depósito mínimo?',

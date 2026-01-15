@@ -34,7 +34,7 @@ const InflationComparison: React.FC = () => {
                 <div className="flex-1 bg-theme-secondary rounded-full h-10 sm:h-10 overflow-hidden relative border border-theme-light shadow-theme-md min-h-[44px]">
                   <div
                     className={`${item.color} h-full flex items-center justify-end px-2 sm:px-4 transition-all duration-1000`}
-                    style={{ width: item.country === 'Estable.app' ? '100%' : '80%' }}
+                    style={{ width: item.country === 'Estable.lat' ? '100%' : '80%' }}
                   >
                     <span className="font-bold text-white text-xs sm:text-sm md:text-base">{item.inflation}</span>
                   </div>

@@ -21,7 +21,7 @@ const AffiliatesPage: React.FC = () => {
               </Link>
               <h1 className="text-5xl font-bold mb-4 text-theme-primary">Programa de Affiliates</h1>
               <p className="text-theme-tertiary text-lg max-w-2xl mx-auto">
-                Únete a nuestro programa de affiliates y gana comisiones por cada usuario que traigas a Estable.app
+                Únete a nuestro programa de affiliates y gana comisiones por cada usuario que traigas a Estable.lat
               </p>
             </div>
 
@@ -175,7 +175,7 @@ const AffiliatesPage: React.FC = () => {
                   <h4 className="font-semibold mb-3 text-theme-primary">💬 Mensaje Efectivo</h4>
                   <ul className="space-y-2 text-sm text-theme-tertiary">
                     <li>• Enfócate en el problema: la inflación en LATAM</li>
-                    <li>• Explica cómo Estable.app protege ahorros en dólares</li>
+                    <li>• Explica cómo Estable.lat protege ahorros en dólares</li>
                     <li>• Destaca la seguridad: Morpho Blue auditado</li>
                     <li>• Menciona las bajas comisiones de Base Network</li>
                     <li>• Comparte testimonios y tus propios resultados</li>

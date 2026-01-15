@@ -7,7 +7,7 @@ const BASE_USDT_ADDRESS = '0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb';
 const BASE_DAI_ADDRESS = '0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb';
 
 async function main() {
-  console.log('🚀 Starting Estable.app Morpho Blue deployment on Base...\n');
+  console.log('🚀 Starting Estable.lat Morpho Blue deployment on Base...\n');
 
   const [deployer] = await ethers.getSigners();
   console.log('Deploying contracts with account:', deployer.address);

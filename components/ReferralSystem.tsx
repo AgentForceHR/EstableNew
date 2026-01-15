@@ -37,12 +37,12 @@ const ReferralSystem: React.FC = () => {
   };
 
   const shareOnWhatsApp = () => {
-    const message = `🇦🇷 ¿Cansado de la inflación?\n\nGenera hasta 15% APY en dólares con Estable.app 💰\n\n✅ Seguro en Base Network\n✅ Retira cuando quieras\n✅ Morpho Blue + Spark\n\nEmpieza ahora: ${window.location.origin}?ref=${referral?.referral_code}`;
+    const message = `🇦🇷 ¿Cansado de la inflación?\n\nGenera hasta 15% APY en dólares con Estable.lat 💰\n\n✅ Seguro en Base Network\n✅ Retira cuando quieras\n✅ Morpho Blue + Spark\n\nEmpieza ahora: ${window.location.origin}?ref=${referral?.referral_code}`;
     window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
   };
 
   const shareOnTelegram = () => {
-    const message = `🇦🇷 Genera hasta 15% APY en dólares con Estable.app\n\n${window.location.origin}?ref=${referral?.referral_code}`;
+    const message = `🇦🇷 Genera hasta 15% APY en dólares con Estable.lat\n\n${window.location.origin}?ref=${referral?.referral_code}`;
     window.open(`https://t.me/share/url?url=${encodeURIComponent(window.location.origin + '?ref=' + referral?.referral_code)}&text=${encodeURIComponent(message)}`, '_blank');
   };
 
