@@ -12,7 +12,7 @@ const ETHFaucet: React.FC = () => {
 
   const claimETH = async () => {
     if (!isConnected || !address) {
-      setMessage({ type: 'error', text: 'Please connect your wallet first' });
+      setMessage({ type: 'error', text: 'Por favor conecta tu wallet primero' });
       return;
     }
 
@@ -35,7 +35,7 @@ const ETHFaucet: React.FC = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        setMessage({ type: 'error', text: data.error || 'Failed to claim ETH' });
+        setMessage({ type: 'error', text: data.error || 'Falló al reclamar ETH' });
         return;
       }
 
@@ -43,7 +43,7 @@ const ETHFaucet: React.FC = () => {
       setTxHash(data.txHash);
     } catch (error) {
       console.error('Faucet error:', error);
-      setMessage({ type: 'error', text: 'An unexpected error occurred' });
+      setMessage({ type: 'error', text: 'Ocurrió un error inesperado' });
     } finally {
       setLoading(false);
     }
@@ -53,9 +53,9 @@ const ETHFaucet: React.FC = () => {
     <div className="bg-theme-card rounded-xl border border-theme-light p-6 md:p-8 shadow-theme-lg">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-2xl font-bold text-theme-primary mb-2">ETH Faucet</h3>
+          <h3 className="text-2xl font-bold text-theme-primary mb-2">Faucet de ETH</h3>
           <p className="text-theme-tertiary text-sm">
-            Get free Base Sepolia ETH for testing (0.001 ETH per day)
+            Obtén Base Sepolia ETH gratis para pruebas (0.001 ETH por día)
           </p>
         </div>
         <div className="text-4xl">🚰</div>
@@ -77,7 +77,7 @@ const ETHFaucet: React.FC = () => {
               rel="noopener noreferrer"
               className="text-xs underline mt-2 inline-block hover:opacity-80"
             >
-              View transaction
+              Ver transacción
             </a>
           )}
         </div>
@@ -85,13 +85,13 @@ const ETHFaucet: React.FC = () => {
 
       <div className="space-y-4">
         <div className="bg-theme-secondary p-4 rounded-lg border border-theme-light">
-          <div className="text-xs text-theme-tertiary mb-2">Your Wallet</div>
+          <div className="text-xs text-theme-tertiary mb-2">Tu Wallet</div>
           {isConnected ? (
             <div className="font-mono text-sm text-theme-primary break-all">
               {address?.slice(0, 10)}...{address?.slice(-8)}
             </div>
           ) : (
-            <div className="text-sm text-theme-tertiary">Not connected</div>
+            <div className="text-sm text-theme-tertiary">No conectada</div>
           )}
         </div>
 
@@ -100,7 +100,7 @@ const ETHFaucet: React.FC = () => {
             onClick={openConnectModal}
             className="w-full bg-accent-primary hover:bg-accent-hover text-white font-semibold py-3 min-h-[44px] rounded-lg transition-all shadow-theme-md"
           >
-            Connect Wallet
+            Conectar Wallet
           </button>
         ) : (
           <button
@@ -108,17 +108,17 @@ const ETHFaucet: React.FC = () => {
             disabled={loading}
             className="w-full bg-accent-primary hover:bg-accent-hover disabled:bg-theme-secondary disabled:text-theme-tertiary text-white font-semibold py-3 min-h-[44px] rounded-lg transition-all shadow-theme-md"
           >
-            {loading ? 'Claiming...' : 'Claim 0.001 ETH'}
+            {loading ? 'Reclamando...' : 'Reclamar 0.001 ETH'}
           </button>
         )}
 
         <div className="bg-blue-500/10 border border-blue-500/20 p-4 rounded-lg">
-          <h4 className="font-semibold text-blue-400 mb-2 text-sm">ℹ️ Faucet Rules</h4>
+          <h4 className="font-semibold text-blue-400 mb-2 text-sm">ℹ️ Reglas del Faucet</h4>
           <ul className="text-xs text-theme-tertiary space-y-1">
-            <li>• You can claim 0.001 ETH every 24 hours</li>
-            <li>• ETH is sent on Base Sepolia testnet</li>
-            <li>• Use it to pay for gas fees when testing</li>
-            <li>• This ETH has no real-world value</li>
+            <li>• Puedes reclamar 0.001 ETH cada 24 horas</li>
+            <li>• El ETH se envía en la testnet Base Sepolia</li>
+            <li>• Úsalo para pagar las tarifas de gas al probar</li>
+            <li>• Este ETH no tiene valor real</li>
           </ul>
         </div>
       </div>

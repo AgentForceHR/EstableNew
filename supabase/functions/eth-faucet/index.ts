@@ -25,7 +25,7 @@ Deno.serve(async (req: Request) => {
 
     if (!walletAddress || !ethers.isAddress(walletAddress)) {
       return new Response(
-        JSON.stringify({ error: "Invalid wallet address" }),
+        JSON.stringify({ error: "Dirección de wallet inválida" }),
         {
           status: 400,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -39,7 +39,7 @@ Deno.serve(async (req: Request) => {
 
     if (!faucetPrivateKey) {
       return new Response(
-        JSON.stringify({ error: "Faucet not configured" }),
+        JSON.stringify({ error: "Faucet no configurado" }),
         {
           status: 500,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -61,7 +61,7 @@ Deno.serve(async (req: Request) => {
       .limit(1);
 
     if (claimsError) {
-      throw new Error(`Database error: ${claimsError.message}`);
+      throw new Error(`Error de base de datos: ${claimsError.message}`);
     }
 
     if (recentClaims && recentClaims.length > 0) {
@@ -71,7 +71,7 @@ Deno.serve(async (req: Request) => {
 
       return new Response(
         JSON.stringify({
-          error: `You can claim again in ${hoursLeft} hour(s)`,
+          error: `Puedes reclamar de nuevo en ${hoursLeft} hora(s)`,
           nextClaimTime: nextClaimTime.toISOString(),
         }),
         {
@@ -89,7 +89,7 @@ Deno.serve(async (req: Request) => {
 
     if (balance < amountWei) {
       return new Response(
-        JSON.stringify({ error: "Faucet is empty. Please contact support." }),
+        JSON.stringify({ error: "El faucet está vacío. Por favor contacta a soporte." }),
         {
           status: 503,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -123,7 +123,7 @@ Deno.serve(async (req: Request) => {
         success: true,
         txHash: tx.hash,
         amount: FAUCET_AMOUNT_ETH,
-        message: `Successfully sent ${FAUCET_AMOUNT_ETH} ETH to ${walletAddress}`,
+        message: `Se enviaron exitosamente ${FAUCET_AMOUNT_ETH} ETH a ${walletAddress}`,
       }),
       {
         status: 200,

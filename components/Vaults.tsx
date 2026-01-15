@@ -4,7 +4,6 @@ import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { getVaults, approveToken, deposit, withdraw, getTokenBalance, getVaultBalance } from '../lib/contracts';
 import { handleVaultTransaction } from '../lib/points';
 import { ethers } from 'ethers';
-import FaucetButtons from './FaucetButtons';
 
 interface VaultData {
   id: string;
@@ -318,8 +317,6 @@ const Vaults: React.FC = () => {
             <span className="text-blue-400 text-sm font-semibold">Base Sepolia Testnet</span>
           </div>
         </div>
-
-        <FaucetButtons />
 
         {address && calculateTotalValue() > 0 && (
           <div className="bg-gradient-to-r from-brand-green/10 to-blue-500/10 border border-brand-green/20 rounded-xl p-4 md:p-8 mb-6 md:mb-8">
