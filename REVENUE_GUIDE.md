@@ -1,8 +1,8 @@
-# Estable.app - Revenue Implementation Guide
+# Estable.lat - Revenue Implementation Guide
 
 ## Overview
 
-Complete revenue monetization system for Estable.app with **4 revenue streams** that can generate $210k+/year at $10M TVL.
+Complete revenue monetization system for Estable.lat with **4 revenue streams** that can generate $210k+/year at $10M TVL.
 
 ## Revenue Streams
 
@@ -69,7 +69,7 @@ const referral = await api.createReferralCode(walletAddress);
 
 2. **Share referral link:**
 ```
-https://estable.app?ref=ABC123
+https://estable.lat?ref=ABC123
 ```
 
 3. **Track conversions:**
@@ -252,7 +252,7 @@ LIMIT 10;
 
 ### Real-time Metrics
 
-Access via: `https://estable.app/admin/revenue`
+Access via: `https://estable.lat/admin/revenue`
 
 **Key metrics:**
 - Total revenue (24h, 7d, 30d, 90d)
@@ -295,7 +295,7 @@ await api.trackRevenue(
 ```typescript
 const { referral } = await api.createReferralCode(walletAddress);
 console.log(`Your code: ${referral.referral_code}`);
-console.log(`Share: https://estable.app?ref=${referral.referral_code}`);
+console.log(`Share: https://estable.lat?ref=${referral.referral_code}`);
 ```
 
 ### 2. Share Link
@@ -309,13 +309,13 @@ console.log(`Share: https://estable.app?ref=${referral.referral_code}`);
 ```
 🇦🇷 ¿Cansado de la inflación?
 
-Genera hasta 18% APY en dólares con Estable.app 💰
+Genera hasta 18% APY en dólares con Estable.lat 💰
 
 ✅ Seguro y auditado
 ✅ Retira cuando quieras
 ✅ Sin KYC
 
-Empieza ahora: https://estable.app?ref=ABC123
+Empieza ahora: https://estable.lat?ref=ABC123
 
 Yo gano comisión por recomendarte, tú ganas rendimientos. ¡Win-win!
 ```

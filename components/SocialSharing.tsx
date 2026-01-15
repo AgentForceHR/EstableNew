@@ -8,7 +8,7 @@ Vaults de USDC/USDT/DAI y ganando puntos 🎯
 
 📌 Mientras más puntos acumule, mayor prioridad/multiplicador tendré en el airdrop cuando salga el token.
 
-👉 https://estable.app
+👉 https://estable.lat
 
 #DeFi #Stablecoins #Testnet`,
 
@@ -20,19 +20,19 @@ Vaults de USDC/USDT/DAI y ganando puntos 🎯
 
 📌 Importante: mientras más puntos acumules, mayor prioridad/multiplicador tendrás en el airdrop cuando se lance el token.
 
-Únete aquí: https://estable.app
+Únete aquí: https://estable.lat
 
 #DeFi #Stablecoins #CryptoLATAM #Testnet`,
 
   TELEGRAM: `Probando Estable (testnet) 🚀
 Vaults USDC/USDT/DAI + sistema de puntos 🎯
 📌 Más puntos = mayor prioridad/multiplicador en el airdrop cuando salga el token.
-https://estable.app`,
+https://estable.lat`,
 
   UNIVERSAL: `Estoy usando Estable en testnet 🚀
 Gano puntos usando vaults y compartiendo.
 📌 Más puntos = mayor prioridad/multiplicador en el airdrop al lanzar el token.
-👉 https://estable.app`
+👉 https://estable.lat`
 };
 
 const SocialSharing: React.FC = () => {
@@ -86,7 +86,7 @@ const SocialSharing: React.FC = () => {
   };
 
   const handleShareFacebook = async () => {
-    const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('https://estable.app')}&quote=${encodeURIComponent(SHARE_POSTS.FACEBOOK)}`;
+    const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('https://estable.lat')}&quote=${encodeURIComponent(SHARE_POSTS.FACEBOOK)}`;
     window.open(url, '_blank');
 
     if (address && !completed[ACTION_TYPES.SHARE_FACEBOOK]) {
@@ -149,7 +149,7 @@ const SocialSharing: React.FC = () => {
   };
 
   const handleCopyLink = async () => {
-    await navigator.clipboard.writeText('https://estable.app');
+    await navigator.clipboard.writeText('https://estable.lat');
 
     if (address && !completed[ACTION_TYPES.COPY_LINK]) {
       const result = await addPoints(

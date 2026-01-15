@@ -1,8 +1,8 @@
-# Estable.app - Morpho Blue + Spark.fi Integration (Base Network)
+# Estable.lat - Morpho Blue + Spark.fi Integration (Base Network)
 
 ## 🚀 Complete DeFi Yield Platform for LATAM
 
-Estable.app is a comprehensive yield aggregation platform focused on **Morpho Blue** and **Spark.fi** vaults on **Base network**, targeting Latin American users seeking dollar-denominated yields to combat inflation.
+Estable.lat is a comprehensive yield aggregation platform focused on **Morpho Blue** and **Spark.fi** vaults on **Base network**, targeting Latin American users seeking dollar-denominated yields to combat inflation.
 
 ### Key Features
 
@@ -493,4 +493,4 @@ Contributions welcome! Please:
 
 ---
 
-Built with ❤️ for LATAM by the Estable.app team
+Built with ❤️ for LATAM by the Estable.lat team
