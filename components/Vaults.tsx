@@ -61,9 +61,13 @@ const Vaults: React.FC = () => {
     }
   }, [address, vaults.length, currentTime]);
 
-  const loadVaults = () => {
-    const data = getVaults();
-    setVaults(data);
+  const loadVaults = async () => {
+    try {
+      const data = await getVaults();
+      setVaults(data);
+    } catch (error) {
+      console.error('Failed to load vaults:', error);
+    }
   };
 
   const calculateYieldForDeposits = (deposits: DepositRecord[], currentTime: number): { totalDeposited: number; totalYield: number } => {

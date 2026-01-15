@@ -1,5 +1,6 @@
 import { ethers } from "ethers";
-import deployments from "../deployments/base-sepolia.json";
+import testnetDeployments from "../deployments/base-sepolia.json";
+import mainnetDeployments from "../deployments/base-mainnet.json";
 
 declare global {
   interface Window {
@@ -27,6 +28,7 @@ const FAUCET_ABI = [
 ];
 
 const BASE_SEPOLIA_CHAIN_ID = 84532;
+const BASE_MAINNET_CHAIN_ID = 8453;
 
 function getProvider() {
   if (!window.ethereum) throw new Error("Wallet not found");
@@ -44,24 +46,43 @@ export async function getChainId() {
   return Number(net.chainId);
 }
 
+function getDeployments(chainId: number) {
+  if (chainId === BASE_MAINNET_CHAIN_ID) {
+    return mainnetDeployments;
+  } else if (chainId === BASE_SEPOLIA_CHAIN_ID) {
+    return testnetDeployments;
+  }
+  throw new Error(`Unsupported network. Please switch to Base Mainnet (${BASE_MAINNET_CHAIN_ID}) or Base Sepolia (${BASE_SEPOLIA_CHAIN_ID})`);
+}
+
 export async function checkChain() {
   const chainId = await getChainId();
-  if (chainId !== BASE_SEPOLIA_CHAIN_ID) {
-    throw new Error(`Please switch to Base Sepolia network (chainId: ${BASE_SEPOLIA_CHAIN_ID})`);
+  if (chainId !== BASE_SEPOLIA_CHAIN_ID && chainId !== BASE_MAINNET_CHAIN_ID) {
+    throw new Error(`Please switch to Base Mainnet (${BASE_MAINNET_CHAIN_ID}) or Base Sepolia (${BASE_SEPOLIA_CHAIN_ID})`);
   }
 }
 
-export function getVaults() {
+export async function getVaults() {
+  const chainId = await getChainId();
+  const deployments = getDeployments(chainId);
   return (deployments as any).stableVaults;
 }
 
-export function getTokens() {
+export async function getTokens() {
+  const chainId = await getChainId();
+  const deployments = getDeployments(chainId);
   return (deployments as any).tokens;
 }
 
 export async function mintTestToken(symbol: "USDC" | "USDT" | "DAI") {
   await checkChain();
-  const tokens = getTokens();
+  const chainId = await getChainId();
+
+  if (chainId !== BASE_SEPOLIA_CHAIN_ID) {
+    throw new Error("Faucet is only available on Base Sepolia testnet");
+  }
+
+  const tokens = await getTokens();
   const token = tokens[symbol];
 
   const signer = await getSigner();

@@ -1,0 +1,55 @@
+{
+  "network": "base",
+  "chainId": 8453,
+  "tokens": {
+    "USDC": {
+      "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "decimals": 6
+    },
+    "USDT": {
+      "address": "0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2",
+      "decimals": 6
+    },
+    "DAI": {
+      "address": "0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb",
+      "decimals": 18
+    }
+  },
+  "morpho": {
+    "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+    "markets": {
+      "sparkUSDC": "0x8793d6e0c6c5f1d2b1d2d2c5d7f8a9b0c1d2e3f4",
+      "steakhouseUSDT": "0x9893d6e0c6c5f1d2b1d2d2c5d7f8a9b0c1d2e3f5",
+      "sDAI": "0xa893d6e0c6c5f1d2b1d2d2c5d7f8a9b0c1d2e3f6"
+    }
+  },
+  "stableVaults": [
+    {
+      "id": "usdc-vault-mainnet",
+      "name": "USDC Vault",
+      "assetSymbol": "USDC",
+      "assetAddress": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "vaultAddress": "0x0000000000000000000000000000000000000000",
+      "decimals": 6,
+      "description": "Vault optimizado para USDC con estrategia multi-protocolo"
+    },
+    {
+      "id": "usdt-vault-mainnet",
+      "name": "USDT Vault",
+      "assetSymbol": "USDT",
+      "assetAddress": "0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2",
+      "vaultAddress": "0x0000000000000000000000000000000000000000",
+      "decimals": 6,
+      "description": "Vault optimizado para USDT con estrategia multi-protocolo"
+    },
+    {
+      "id": "dai-vault-mainnet",
+      "name": "DAI Vault",
+      "assetSymbol": "DAI",
+      "assetAddress": "0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb",
+      "vaultAddress": "0x0000000000000000000000000000000000000000",
+      "decimals": 18,
+      "description": "Vault optimizado para DAI con estrategia multi-protocolo"
+    }
+  ]
+}
