@@ -162,7 +162,9 @@ const Vaults: React.FC = () => {
         selectedVault.vaultAddress,
         selectedVault.assetAddress,
         depositAmount,
-        selectedVault.decimals
+        selectedVault.decimals,
+        selectedVault.name,
+        selectedVault.assetSymbol
       );
 
       const deposits = getDepositRecords(selectedVault.id);
@@ -216,11 +218,18 @@ const Vaults: React.FC = () => {
     setProcessing(true);
 
     try {
-      const tx = await withdraw(selectedVault.vaultAddress, withdrawShares);
-
       const deposits = getDepositRecords(selectedVault.id);
       const totalShares = parseFloat(userBalances[selectedVault.id]?.shares || '0');
       const withdrawPercent = shares / totalShares;
+      const withdrawAmount = (parseFloat(userBalances[selectedVault.id]?.value || '0') * withdrawPercent).toFixed(2);
+
+      const tx = await withdraw(
+        selectedVault.vaultAddress,
+        withdrawShares,
+        selectedVault.name,
+        selectedVault.assetSymbol,
+        withdrawAmount
+      );
 
       const newDeposits = deposits.map(d => ({
         ...d,

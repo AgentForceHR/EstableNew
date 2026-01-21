@@ -176,6 +176,39 @@ export async function addPoints(
 
     saveAllUserPoints(allUserPoints);
 
+    // Also save to database
+    try {
+      const { createClient } = await import('@supabase/supabase-js');
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+      // Insert point action
+      await supabase.from('point_actions').insert({
+        wallet_address: lowerWallet,
+        chain_id: chainId,
+        action_type: actionType,
+        action_label: actionLabel,
+        points,
+        vault_name: vaultName,
+        tx_hash: txHash,
+        metadata,
+      });
+
+      // Upsert user points
+      await supabase.from('user_points').upsert({
+        wallet_address: lowerWallet,
+        chain_id: chainId,
+        total_points: newTotalPoints,
+        level: newLevel,
+        updated_at: now,
+      }, {
+        onConflict: 'wallet_address,chain_id'
+      });
+    } catch (dbError) {
+      console.error('Error saving to database:', dbError);
+    }
+
     return { success: true, totalPoints: newTotalPoints };
   } catch (error) {
     console.error('Error in addPoints:', error);

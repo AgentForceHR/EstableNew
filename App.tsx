@@ -5,6 +5,7 @@ import MainnetPage from './pages/MainnetPage';
 import TestnetPage from './pages/TestnetPage';
 import AffiliatesPage from './pages/AffiliatesPage';
 import PointsPage from './pages/PointsPage';
+import AdminPage from './pages/AdminPage';
 
 const App: React.FC = () => {
   const isAppSubdomain = window.location.hostname === 'app.estable.lat';
@@ -20,6 +21,7 @@ const App: React.FC = () => {
                 <Route path="/testnet" element={<TestnetPage />} />
                 <Route path="/affiliates" element={<AffiliatesPage />} />
                 <Route path="/points" element={<PointsPage />} />
+                <Route path="/admin" element={<AdminPage />} />
               </>
             ) : (
               <>
@@ -28,6 +30,7 @@ const App: React.FC = () => {
                 <Route path="/testnet" element={<TestnetPage />} />
                 <Route path="/affiliates" element={<AffiliatesPage />} />
                 <Route path="/points" element={<PointsPage />} />
+                <Route path="/admin" element={<AdminPage />} />
               </>
             )}
           </Routes>

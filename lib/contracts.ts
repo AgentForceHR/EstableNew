@@ -86,11 +86,27 @@ export async function mintTestToken(symbol: "USDC" | "USDT" | "DAI") {
   const token = tokens[symbol];
 
   const signer = await getSigner();
+  const signerAddress = await signer.getAddress();
   const contract = new ethers.Contract(token.address, FAUCET_ABI, signer);
   const amount = ethers.parseUnits("1000", token.decimals);
 
   const tx = await contract.mintFaucet(amount);
   await tx.wait();
+
+  // Track the mint
+  try {
+    const { trackTokenMint } = await import('./analytics');
+    await trackTokenMint(
+      signerAddress,
+      symbol,
+      amount.toString(),
+      token.decimals,
+      tx.hash,
+      chainId
+    );
+  } catch (error) {
+    console.error('Error tracking token mint:', error);
+  }
 
   return tx.hash;
 }
@@ -129,23 +145,77 @@ export async function deposit(
   vault: string,
   token: string,
   amount: string,
-  decimals: number
+  decimals: number,
+  vaultName?: string,
+  assetSymbol?: string
 ) {
   await checkChain();
   const signer = await getSigner();
+  const signerAddress = await signer.getAddress();
+  const chainId = await getChainId();
   const parsed = ethers.parseUnits(amount, decimals);
   const v = new ethers.Contract(vault, VAULT_ABI, signer);
   const tx = await v.deposit(parsed, ethers.ZeroAddress);
   await tx.wait();
+
+  // Track the deposit
+  if (vaultName && assetSymbol) {
+    try {
+      const { trackVaultTransaction } = await import('./analytics');
+      await trackVaultTransaction(
+        signerAddress,
+        vaultName,
+        vault,
+        assetSymbol,
+        'deposit',
+        amount,
+        undefined,
+        tx.hash,
+        chainId
+      );
+    } catch (error) {
+      console.error('Error tracking deposit:', error);
+    }
+  }
+
   return tx.hash;
 }
 
-export async function withdraw(vault: string, shares: string) {
+export async function withdraw(
+  vault: string,
+  shares: string,
+  vaultName?: string,
+  assetSymbol?: string,
+  amount?: string
+) {
   await checkChain();
   const signer = await getSigner();
+  const signerAddress = await signer.getAddress();
+  const chainId = await getChainId();
   const parsed = ethers.parseUnits(shares, 18);
   const v = new ethers.Contract(vault, VAULT_ABI, signer);
   const tx = await v.withdraw(parsed);
   await tx.wait();
+
+  // Track the withdrawal
+  if (vaultName && assetSymbol && amount) {
+    try {
+      const { trackVaultTransaction } = await import('./analytics');
+      await trackVaultTransaction(
+        signerAddress,
+        vaultName,
+        vault,
+        assetSymbol,
+        'withdraw',
+        amount,
+        shares,
+        tx.hash,
+        chainId
+      );
+    } catch (error) {
+      console.error('Error tracking withdrawal:', error);
+    }
+  }
+
   return tx.hash;
 }

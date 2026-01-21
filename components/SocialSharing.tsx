@@ -81,6 +81,14 @@ const SocialSharing: React.FC = () => {
       if (result.success) {
         setCompleted({ ...completed, [ACTION_TYPES.SHARE_X]: true });
         alert(`🎉 ¡Ganaste ${POINT_VALUES.SHARE_X} puntos!`);
+
+        // Track social share
+        try {
+          const { trackSocialShare } = await import('../lib/analytics');
+          await trackSocialShare(address, 'x', 'share', POINT_VALUES.SHARE_X);
+        } catch (error) {
+          console.error('Error tracking social share:', error);
+        }
       }
     }
   };
