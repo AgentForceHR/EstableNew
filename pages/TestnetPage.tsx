@@ -26,7 +26,7 @@ const TestnetPage: React.FC = () => {
                 Prueba nuestros vaults en testnet con tokens de prueba gratuitos. Prueba toda la funcionalidad antes de usar mainnet.
               </p>
               <a
-                href="https://x.com/Estable_app"
+                href="https://x.com/Estable_lat"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-accent-primary hover:bg-accent-hover text-white font-semibold rounded-lg transition-all shadow-theme-md hover:shadow-theme-lg"
