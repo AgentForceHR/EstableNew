@@ -34,13 +34,13 @@ const LaunchCountdown: React.FC = () => {
         <div className="flex items-center justify-center gap-2 mb-4">
           <div className="h-px w-12 bg-gradient-to-r from-transparent to-accent-primary"></div>
           <span className="text-accent-primary font-semibold text-sm uppercase tracking-wider">
-            Launching Soon
+            Próximamente
           </span>
           <div className="h-px w-12 bg-gradient-to-l from-transparent to-accent-primary"></div>
         </div>
 
         <h2 className="text-2xl md:text-3xl font-bold text-theme-primary mb-8">
-          Mainnet Goes Live In
+          Mainnet Se Activa En
         </h2>
 
         <div className="grid grid-cols-4 gap-4 md:gap-6 max-w-2xl mx-auto">
@@ -49,7 +49,7 @@ const LaunchCountdown: React.FC = () => {
               {String(timeLeft.days).padStart(2, '0')}
             </div>
             <div className="text-xs md:text-sm text-theme-tertiary uppercase tracking-wide">
-              Days
+              Días
             </div>
           </div>
 
@@ -58,7 +58,7 @@ const LaunchCountdown: React.FC = () => {
               {String(timeLeft.hours).padStart(2, '0')}
             </div>
             <div className="text-xs md:text-sm text-theme-tertiary uppercase tracking-wide">
-              Hours
+              Horas
             </div>
           </div>
 
@@ -67,7 +67,7 @@ const LaunchCountdown: React.FC = () => {
               {String(timeLeft.minutes).padStart(2, '0')}
             </div>
             <div className="text-xs md:text-sm text-theme-tertiary uppercase tracking-wide">
-              Minutes
+              Minutos
             </div>
           </div>
 
@@ -76,13 +76,13 @@ const LaunchCountdown: React.FC = () => {
               {String(timeLeft.seconds).padStart(2, '0')}
             </div>
             <div className="text-xs md:text-sm text-theme-tertiary uppercase tracking-wide">
-              Seconds
+              Segundos
             </div>
           </div>
         </div>
 
         <p className="mt-6 text-theme-tertiary text-sm">
-          Be ready for our mainnet launch on Base
+          Prepárate para nuestro lanzamiento en mainnet de Base
         </p>
       </div>
     </div>
