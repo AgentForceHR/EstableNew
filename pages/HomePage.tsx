@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
+import LaunchCountdown from '../components/LaunchCountdown';
 import HowItWorks from '../components/HowItWorks';
 import ProtocolDetails from '../components/ProtocolDetails';
 import InflationComparison from '../components/InflationComparison';
@@ -13,6 +14,7 @@ const HomePage: React.FC = () => {
       <Header />
       <main>
         <Hero />
+        <LaunchCountdown />
         <HowItWorks />
         <ProtocolDetails />
         <InflationComparison />
